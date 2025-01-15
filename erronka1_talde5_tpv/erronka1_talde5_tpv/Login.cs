@@ -10,6 +10,8 @@ namespace erronka1_talde5_tpv
         public Login()
         {
             InitializeComponent();
+            // Establecer el formulario en pantalla completa
+            this.WindowState = FormWindowState.Maximized;
         }
 
         private NHibernate.Cfg.Configuration miConfiguracion;
@@ -18,6 +20,9 @@ namespace erronka1_talde5_tpv
 
         private void Login_Load(object sender, EventArgs e)
         {
+            // Centrar los controles
+            CenterControls();
+
             logInButton.BackColor = Color.FromArgb(118, 138, 153);
             this.BackColor = Color.FromArgb(52, 90, 123);
 
@@ -52,8 +57,13 @@ namespace erronka1_talde5_tpv
 
                     if (resultado != null)
                     {
-                        // Usuario encontrado
-                        MessageBox.Show($"¡Hola, {emailText.Text}!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        // Usuario encontrado, abrir la pantalla Comanda
+                        Comanda comandaForm = new Comanda
+                        {
+                            NombreUsuario = resultado.Izena // Pasar el nombre al formulario de Comanda
+                        };
+                        comandaForm.Show();
+                        this.Hide(); // Ocultar el formulario de login
                     }
                     else
                     {
@@ -73,6 +83,24 @@ namespace erronka1_talde5_tpv
                     mySession.Close();
                 }
             }
+        }
+
+        // Método para centrar los controles
+        private void CenterControls()
+        {
+            // Centrar el formulario
+            this.StartPosition = FormStartPosition.CenterScreen;
+
+            // Centrar el botón de login
+            logInButton.Left = (this.ClientSize.Width - logInButton.Width) / 2;
+            logInButton.Top = (this.ClientSize.Height - logInButton.Height) / 2 + 50; // Centrado vertical y desplazado hacia abajo
+
+            // Centrar los campos de texto
+            emailText.Left = (this.ClientSize.Width - emailText.Width) / 2;
+            emailText.Top = logInButton.Top - 60;
+
+            pasahitzaText.Left = (this.ClientSize.Width - pasahitzaText.Width) / 2;
+            pasahitzaText.Top = emailText.Top + 40;
         }
     }
 }

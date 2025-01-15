@@ -114,6 +114,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Comanda.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Comanda.Designer.cs">
+      <DependentUpon>Comanda.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Eskaera.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Eskaera.Designer.cs">
+      <DependentUpon>Eskaera.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Eskaera2.cs" />
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,6 +136,12 @@
     <Compile Include="Langilea.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Comanda.resx">
+      <DependentUpon>Comanda.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Eskaera.resx">
+      <DependentUpon>Eskaera.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
@@ -135,6 +154,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="Eskaera.Designer.cds" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -151,6 +171,11 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Langilea.hbm.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Eskaera2.hbm.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

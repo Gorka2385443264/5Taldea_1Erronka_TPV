@@ -3,36 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\barto\\source\\repos\\erronka1_talde5_tpv\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|c:\\users\\barto\\source\\repos\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|solutionrelative:erronka1_talde5_tpv\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|c:\\users\\barto\\source\\repos\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\comanda.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|solutionrelative:erronka1_talde5_tpv\\comanda.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|c:\\users\\barto\\source\\repos\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|solutionrelative:erronka1_talde5_tpv\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|c:\\users\\barto\\source\\repos\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\comanda.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|solutionrelative:erronka1_talde5_tpv\\comanda.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|c:\\users\\barto\\source\\repos\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\langilea.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|solutionrelative:erronka1_talde5_tpv\\langilea.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|c:\\users\\barto\\source\\repos\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\eskaera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|solutionrelative:erronka1_talde5_tpv\\eskaera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|c:\\users\\barto\\source\\repos\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\langilea.hbm.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|solutionrelative:erronka1_talde5_tpv\\langilea.hbm.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|c:\\users\\barto\\source\\repos\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\login.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|solutionrelative:erronka1_talde5_tpv\\login.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|C:\\Users\\barto\\source\\repos\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|solutionrelative:erronka1_talde5_tpv\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|C:\\Users\\barto\\source\\repos\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|solutionrelative:erronka1_talde5_tpv\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|c:\\users\\barto\\source\\repos\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\login.resx||{FF4D6ACA-9352-4A5F-821E-F4D6EBDCAB11}",
-      "RelativeMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|solutionrelative:erronka1_talde5_tpv\\login.resx||{FF4D6ACA-9352-4A5F-821E-F4D6EBDCAB11}"
+      "AbsoluteMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|c:\\users\\barto\\source\\repos\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\eskaera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|solutionrelative:erronka1_talde5_tpv\\eskaera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,108 +26,56 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Login.resx",
-              "DocumentMoniker": "C:\\Users\\barto\\source\\repos\\Erronka1_Talde5_TPV\\erronka1_talde5_tpv\\Login.resx",
-              "RelativeDocumentMoniker": "erronka1_talde5_tpv\\Login.resx",
-              "ToolTip": "C:\\Users\\barto\\source\\repos\\Erronka1_Talde5_TPV\\erronka1_talde5_tpv\\Login.resx",
-              "RelativeToolTip": "erronka1_talde5_tpv\\Login.resx",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
-              "WhenOpened": "2025-01-14T13:01:36.812Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Langilea.hbm.xml",
-              "DocumentMoniker": "C:\\Users\\barto\\source\\repos\\Erronka1_Talde5_TPV\\erronka1_talde5_tpv\\Langilea.hbm.xml",
-              "RelativeDocumentMoniker": "erronka1_talde5_tpv\\Langilea.hbm.xml",
-              "ToolTip": "C:\\Users\\barto\\source\\repos\\Erronka1_Talde5_TPV\\erronka1_talde5_tpv\\Langilea.hbm.xml",
-              "RelativeToolTip": "erronka1_talde5_tpv\\Langilea.hbm.xml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003576|",
-              "WhenOpened": "2025-01-14T12:59:47.099Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Login.Designer.cs",
-              "DocumentMoniker": "C:\\Users\\barto\\source\\repos\\Erronka1_Talde5_TPV\\erronka1_talde5_tpv\\Login.Designer.cs",
-              "RelativeDocumentMoniker": "erronka1_talde5_tpv\\Login.Designer.cs",
-              "ToolTip": "C:\\Users\\barto\\source\\repos\\Erronka1_Talde5_TPV\\erronka1_talde5_tpv\\Login.Designer.cs",
-              "RelativeToolTip": "erronka1_talde5_tpv\\Login.Designer.cs",
-              "ViewState": "AQIAAAgAAAAAAAAAAAAtwDkAAAAAAAAA",
+              "Title": "Eskaera.cs",
+              "DocumentMoniker": "C:\\Users\\barto\\source\\repos\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\Eskaera.cs",
+              "RelativeDocumentMoniker": "erronka1_talde5_tpv\\Eskaera.cs",
+              "ToolTip": "C:\\Users\\barto\\source\\repos\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\Eskaera.cs",
+              "RelativeToolTip": "erronka1_talde5_tpv\\Eskaera.cs",
+              "ViewState": "AQIAAAgAAAAAAAAAAAAowDUAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-14T12:50:30.802Z",
+              "WhenOpened": "2025-01-15T13:42:05.821Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Langilea.cs",
-              "DocumentMoniker": "C:\\Users\\barto\\source\\repos\\Erronka1_Talde5_TPV\\erronka1_talde5_tpv\\Langilea.cs",
-              "RelativeDocumentMoniker": "erronka1_talde5_tpv\\Langilea.cs",
-              "ToolTip": "C:\\Users\\barto\\source\\repos\\Erronka1_Talde5_TPV\\erronka1_talde5_tpv\\Langilea.cs",
-              "RelativeToolTip": "erronka1_talde5_tpv\\Langilea.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAkAAAAdAAAA",
+              "Title": "Eskaera.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\barto\\source\\repos\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\Eskaera.cs",
+              "RelativeDocumentMoniker": "erronka1_talde5_tpv\\Eskaera.cs",
+              "ToolTip": "C:\\Users\\barto\\source\\repos\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\Eskaera.cs [Dise\u00F1o]",
+              "RelativeToolTip": "erronka1_talde5_tpv\\Eskaera.cs [Dise\u00F1o]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-14T12:47:01.111Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\barto\\source\\repos\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\Program.cs",
-              "RelativeDocumentMoniker": "erronka1_talde5_tpv\\Program.cs",
-              "ToolTip": "C:\\Users\\barto\\source\\repos\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\Program.cs",
-              "RelativeToolTip": "erronka1_talde5_tpv\\Program.cs",
-              "ViewState": "AQIAAAEAAAAAAAAAAAAtwAcAAAATAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-14T12:45:22.165Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "App.config",
-              "DocumentMoniker": "C:\\Users\\barto\\source\\repos\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\App.config",
-              "RelativeDocumentMoniker": "erronka1_talde5_tpv\\App.config",
-              "ToolTip": "C:\\Users\\barto\\source\\repos\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\App.config",
-              "RelativeToolTip": "erronka1_talde5_tpv\\App.config",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAUAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
-              "WhenOpened": "2025-01-14T12:29:45.136Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-15T13:42:03.878Z",
+              "EditorCaption": " [Dise\u00F1o]"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Login.cs",
-              "DocumentMoniker": "C:\\Users\\barto\\source\\repos\\Erronka1_Talde5_TPV\\erronka1_talde5_tpv\\Login.cs",
-              "RelativeDocumentMoniker": "erronka1_talde5_tpv\\Login.cs",
-              "ToolTip": "C:\\Users\\barto\\source\\repos\\Erronka1_Talde5_TPV\\erronka1_talde5_tpv\\Login.cs",
-              "RelativeToolTip": "erronka1_talde5_tpv\\Login.cs",
-              "ViewState": "AQIAACkAAAAAAAAAAAAgwC4AAAA7AAAA",
+              "Title": "Comanda.cs",
+              "DocumentMoniker": "C:\\Users\\barto\\source\\repos\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\Comanda.cs",
+              "RelativeDocumentMoniker": "erronka1_talde5_tpv\\Comanda.cs",
+              "ToolTip": "C:\\Users\\barto\\source\\repos\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\Comanda.cs",
+              "RelativeToolTip": "erronka1_talde5_tpv\\Comanda.cs",
+              "ViewState": "AQIAALAAAAAAAAAAAAAswM4AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-14T12:22:12.851Z",
+              "WhenOpened": "2025-01-15T13:40:32.483Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Login.cs [Dise\u00F1o]",
-              "DocumentMoniker": "C:\\Users\\barto\\source\\repos\\Erronka1_Talde5_TPV\\erronka1_talde5_tpv\\Login.cs",
-              "RelativeDocumentMoniker": "erronka1_talde5_tpv\\Login.cs",
-              "ToolTip": "C:\\Users\\barto\\source\\repos\\Erronka1_Talde5_TPV\\erronka1_talde5_tpv\\Login.cs [Dise\u00F1o]",
-              "RelativeToolTip": "erronka1_talde5_tpv\\Login.cs [Dise\u00F1o]",
+              "Title": "Comanda.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\barto\\source\\repos\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\Comanda.cs",
+              "RelativeDocumentMoniker": "erronka1_talde5_tpv\\Comanda.cs",
+              "ToolTip": "C:\\Users\\barto\\source\\repos\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\Comanda.cs [Dise\u00F1o]",
+              "RelativeToolTip": "erronka1_talde5_tpv\\Comanda.cs [Dise\u00F1o]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-14T12:21:32.388Z",
+              "WhenOpened": "2025-01-15T13:40:19.952Z",
               "EditorCaption": " [Dise\u00F1o]"
             }
           ]

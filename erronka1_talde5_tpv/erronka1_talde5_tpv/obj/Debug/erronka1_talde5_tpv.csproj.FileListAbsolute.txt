@@ -52,3 +52,6 @@ C:\Users\barto\source\repos\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Sy
 C:\Users\barto\source\repos\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\barto\source\repos\Erronka1_Talde5_TPV\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.Login.resources
 C:\Users\barto\source\repos\Erronka1_Talde5_TPV\erronka1_talde5_tpv\bin\Debug\Langilea.hbm.xml
+C:\Users\barto\source\repos\Erronka1_Talde5_TPV\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.Comanda.resources
+C:\Users\barto\source\repos\Erronka1_Talde5_TPV\erronka1_talde5_tpv\bin\Debug\Eskaera2.hbm.xml
+C:\Users\barto\source\repos\Erronka1_Talde5_TPV\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.Eskaera.resources
