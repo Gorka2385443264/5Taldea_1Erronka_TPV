@@ -136,6 +136,13 @@ namespace erronka1_talde5_tpv
             this.Controls.Add(buttonTxat);
         }
 
+        private void ButtonTxat_Click(object sender, EventArgs e)
+        {
+            txat txatForm = new txat();
+            txatForm.Show();
+            this.Hide(); // Oculta la pantalla actual
+        }
+
         // Métodos de eventos para los botones
         private void ButtonEskaera_Click(object sender, EventArgs e)
         {
@@ -173,12 +180,6 @@ namespace erronka1_talde5_tpv
         {
             // Lógica para abrir la pantalla de ajustes
             MessageBox.Show("Abriendo pantalla de ajustes...");
-        }
-
-        private void ButtonTxat_Click(object sender, EventArgs e)
-        {
-            // Lógica para abrir la pantalla de Txat
-            MessageBox.Show("Abriendo pantalla de Txat...");
         }
 
         // Método para crear el botón "Volver"
