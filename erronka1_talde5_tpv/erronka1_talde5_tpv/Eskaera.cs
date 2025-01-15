@@ -1,5 +1,9 @@
 ﻿using NHibernate;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace erronka1_talde5_tpv
@@ -8,49 +12,133 @@ namespace erronka1_talde5_tpv
     {
         private NHibernate.Cfg.Configuration miConfiguracion;
         private ISessionFactory mySessionFactory;
-        private ISession mySession;
 
         public Eskaera()
         {
             InitializeComponent();
+            this.WindowState = FormWindowState.Maximized;
         }
 
         private void Eskaera_Load(object sender, EventArgs e)
         {
-            MessageBox.Show("Formulario Eskaera cargado correctamente");
-
             // Configurar NHibernate
             miConfiguracion = new NHibernate.Cfg.Configuration();
             miConfiguracion.Configure();
             mySessionFactory = miConfiguracion.BuildSessionFactory();
-            mySession = mySessionFactory.OpenSession();
 
             // Consulta para obtener todas las comandes (eskaera)
-            using (var transaccion = mySession.BeginTransaction())
+            using (var mySession = mySessionFactory.OpenSession())
             {
-                try
+                using (var transaccion = mySession.BeginTransaction())
                 {
-                    string hql = "FROM Eskaera2"; // Consulta HQL para obtener todas las comandes
-                    var query = mySession.CreateQuery(hql);
+                    try
+                    {
+                        // Obtener todos los langiles para evitar múltiples consultas en el bucle
+                        string hqlLangiles = "FROM Langilea";
+                        var langileak = mySession.CreateQuery(hqlLangiles).List<Langilea>()
+                            .ToDictionary(l => l.Id, l => l.Izena);
 
-                    // Ejecutar la consulta
-                    var listaEskaeras = query.List<Eskaera2>();
+                        // Obtener todas las comandes (eskaeras)
+                        string hqlEskaeras = "FROM Eskaera2";
+                        var listaEskaeras = mySession.CreateQuery(hqlEskaeras).List<Eskaera2>();
 
-                    // Mostrar los resultados en el DataGridView
-                    dataGridViewEskaera.DataSource = listaEskaeras;
+                        // Mostrar los resultados en la pantalla
+                        DisplayEskaerasAsText(listaEskaeras, langileak);
 
-                    transaccion.Commit();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error al obtener las comandes: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    mySession.Close();
+                        transaccion.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error al obtener las comandes: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }
 
+        private void DisplayEskaerasAsText(IList<Eskaera2> listaEskaeras, Dictionary<int, string> langileak)
+        {
+            int verticalSpacing = 10;
+            int horizontalSpacing = 10;
+            int topMargin = 20;
+            int leftMargin = 20;
+            int maxCuadrosPorFila = 5;
+            int cuadroWidth = 200;
+            int cuadroHeight = 150;
+
+            int index = 0;
+            foreach (Eskaera2 eskaera in listaEskaeras)
+            {
+                // Calcular la posición de cada cuadro
+                int row = index / maxCuadrosPorFila;
+                int column = index % maxCuadrosPorFila;
+
+                // Crear un cuadro para cada eskaera
+                Panel panel = new Panel
+                {
+                    Width = cuadroWidth,
+                    Height = cuadroHeight,
+                    Left = leftMargin + (column * (cuadroWidth + horizontalSpacing)),
+                    Top = topMargin + (row * (cuadroHeight + verticalSpacing)),
+                    BackColor = Color.Red
+                };
+
+                // Esquinas redondeadas
+                panel.Region = new Region(
+                    GraphicsPathHelper.CreateRoundedRectangle(
+                        new Rectangle(0, 0, cuadroWidth, cuadroHeight),
+                        20
+                    )
+                );
+
+                // Obtener el nombre del langile
+                string langileIzena = langileak.ContainsKey(eskaera.LangileaId)
+                    ? langileak[eskaera.LangileaId]
+                    : "Desconocido";
+
+                // Crear el texto dinámico
+                Label label = new Label
+                {
+                    Text = $"ID: {eskaera.Id}\n" +
+                           $"Langilea: {langileIzena}\n" +
+                           $"Mahaila ID: {eskaera.MahailaId}\n" +
+                           $"Platera ID: {eskaera.Platera}\n" +
+                           $"Nota: {eskaera.Nota}\n" +
+                           $"Egoera: {eskaera.Egoera} - Done: {eskaera.Done}\n" +
+                           $"Eskaera Done: {eskaera.EskaeraDone?.ToString("dd/MM/yyyy HH:mm:ss") ?? "N/A"}",
+                    AutoSize = false,
+                    TextAlign = ContentAlignment.MiddleLeft,
+                    Dock = DockStyle.Fill,
+                    ForeColor = Color.White,
+                    BackColor = Color.Transparent,
+                    Font = new Font("Arial", 10, FontStyle.Regular)
+                };
+
+                // Agregar el texto al panel y el panel al formulario
+                panel.Controls.Add(label);
+                this.Controls.Add(panel);
+
+                index++;
+            }
+        }
+
+        // Clase para crear rectángulos con esquinas redondeadas
+        public static class GraphicsPathHelper
+        {
+            public static GraphicsPath CreateRoundedRectangle(Rectangle rect, int cornerRadius)
+            {
+                GraphicsPath path = new GraphicsPath();
+
+                int diameter = cornerRadius * 2;
+
+                // Crear arcos para las esquinas
+                path.AddArc(rect.X, rect.Y, diameter, diameter, 180, 90); // Esquina superior izquierda
+                path.AddArc(rect.X + rect.Width - diameter, rect.Y, diameter, diameter, 270, 90); // Esquina superior derecha
+                path.AddArc(rect.X + rect.Width - diameter, rect.Y + rect.Height - diameter, diameter, diameter, 0, 90); // Esquina inferior derecha
+                path.AddArc(rect.X, rect.Y + rect.Height - diameter, diameter, diameter, 90, 90); // Esquina inferior izquierda
+
+                path.CloseFigure();
+                return path;
+            }
+        }
     }
 }
