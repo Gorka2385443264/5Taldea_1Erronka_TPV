@@ -53,17 +53,18 @@ namespace erronka1_talde5_tpv
                     query.SetParameter("emailParam", emailText.Text);
                     query.SetParameter("pasahitzaParam", pasahitzaText.Text);
 
-                    var resultado = query.UniqueResult<erronka1_talde5_tpv.Langilea>();
+                    var resultado = query.UniqueResult<Langilea>();
 
                     if (resultado != null)
                     {
-                        // Usuario encontrado, abrir la pantalla Comanda
+                        mySession.Evict(resultado); // Evitar que NHibernate intente actualizar el objeto automáticamente
+
                         Comanda comandaForm = new Comanda
                         {
-                            NombreUsuario = resultado.Izena // Pasar el nombre al formulario de Comanda
+                            NombreUsuario = resultado.Izena
                         };
                         comandaForm.Show();
-                        this.Hide(); // Ocultar el formulario de login
+                        this.Hide();
                     }
                     else
                     {

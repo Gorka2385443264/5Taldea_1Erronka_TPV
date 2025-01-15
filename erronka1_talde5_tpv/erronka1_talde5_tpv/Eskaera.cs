@@ -13,6 +13,8 @@ namespace erronka1_talde5_tpv
         private NHibernate.Cfg.Configuration miConfiguracion;
         private ISessionFactory mySessionFactory;
 
+        public string NombreUsuario { get; set; } // Propiedad pública para el nombre de usuario
+
         public Eskaera()
         {
             InitializeComponent();
@@ -41,6 +43,9 @@ namespace erronka1_talde5_tpv
                         // Obtener todas las comandes (eskaeras)
                         string hqlEskaeras = "FROM Eskaera2";
                         var listaEskaeras = mySession.CreateQuery(hqlEskaeras).List<Eskaera2>();
+
+                        // Evitar que NHibernate intente actualizar las entidades no deseadas
+                        mySession.Clear();  // Limpia la sesión para evitar actualizaciones no deseadas
 
                         // Mostrar los resultados en la pantalla
                         DisplayEskaerasAsText(listaEskaeras, langileak);
@@ -79,7 +84,8 @@ namespace erronka1_talde5_tpv
                     Height = cuadroHeight,
                     Left = leftMargin + (column * (cuadroWidth + horizontalSpacing)),
                     Top = topMargin + (row * (cuadroHeight + verticalSpacing)),
-                    BackColor = Color.Red
+                    BackColor = Color.Red,
+                    Padding = new Padding(10) // Agregar margen interno
                 };
 
                 // Esquinas redondeadas
@@ -102,9 +108,7 @@ namespace erronka1_talde5_tpv
                            $"Langilea: {langileIzena}\n" +
                            $"Mahaila ID: {eskaera.MahailaId}\n" +
                            $"Platera ID: {eskaera.Platera}\n" +
-                           $"Nota: {eskaera.Nota}\n" +
-                           $"Egoera: {eskaera.Egoera} - Done: {eskaera.Done}\n" +
-                           $"Eskaera Done: {eskaera.EskaeraDone?.ToString("dd/MM/yyyy HH:mm:ss") ?? "N/A"}",
+                           $"Nota: {eskaera.Nota}\n", // Eliminado egoera, done y EskaeraDone
                     AutoSize = false,
                     TextAlign = ContentAlignment.MiddleLeft,
                     Dock = DockStyle.Fill,
