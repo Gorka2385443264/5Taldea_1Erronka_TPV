@@ -23,6 +23,9 @@ namespace erronka1_talde5_tpv
 
         private void Eskaera_Load(object sender, EventArgs e)
         {
+            // Cambiar el fondo del formulario
+            this.BackColor = ColorTranslator.FromHtml("#091725");
+
             // Configurar NHibernate
             miConfiguracion = new NHibernate.Cfg.Configuration();
             miConfiguracion.Configure();
@@ -70,33 +73,31 @@ namespace erronka1_talde5_tpv
                 BackColor = this.BackColor // Igualar fondo con el formulario
             };
 
-            int verticalSpacing = 10;
-            int horizontalSpacing = 10;
-            int topMargin = 20;
-            int leftMargin = 20;
-            int maxCuadrosPorFila = 5;
+            int verticalSpacing = 20;
             int cuadroWidth = 200;
             int cuadroHeight = 150;
+            int maxCuadrosPorFila = 5;
+
+            int visibleWidth = this.ClientSize.Width;
+            int totalRowWidth = maxCuadrosPorFila * cuadroWidth + (maxCuadrosPorFila - 1) * verticalSpacing;
+            int leftMargin = Math.Max((visibleWidth - totalRowWidth) / 2, 20);
 
             int index = 0;
             foreach (Eskaera2 eskaera in listaEskaeras)
             {
-                // Calcular la posición de cada cuadro
                 int row = index / maxCuadrosPorFila;
                 int column = index % maxCuadrosPorFila;
 
-                // Crear un cuadro para cada eskaera
                 Panel panel = new Panel
                 {
                     Width = cuadroWidth,
                     Height = cuadroHeight,
-                    Left = leftMargin + (column * (cuadroWidth + horizontalSpacing)),
-                    Top = topMargin + (row * (cuadroHeight + verticalSpacing)),
-                    BackColor = Color.Red,
-                    Padding = new Padding(10) // Agregar margen interno
+                    Left = leftMargin + (column * (cuadroWidth + verticalSpacing)),
+                    Top = 20 + (row * (cuadroHeight + verticalSpacing)),
+                    BackColor = ColorTranslator.FromHtml("#BA450D"), // Color de los cuadros
+                    Padding = new Padding(10)
                 };
 
-                // Esquinas redondeadas
                 panel.Region = new Region(
                     GraphicsPathHelper.CreateRoundedRectangle(
                         new Rectangle(0, 0, cuadroWidth, cuadroHeight),
@@ -104,12 +105,10 @@ namespace erronka1_talde5_tpv
                     )
                 );
 
-                // Obtener el nombre del langile
                 string langileIzena = langileak.ContainsKey(eskaera.LangileaId)
                     ? langileak[eskaera.LangileaId]
                     : "Desconocido";
 
-                // Crear el texto dinámico
                 Label label = new Label
                 {
                     Text = $"ID: {eskaera.Id}\n" +
@@ -120,22 +119,36 @@ namespace erronka1_talde5_tpv
                     AutoSize = false,
                     TextAlign = ContentAlignment.MiddleLeft,
                     Dock = DockStyle.Fill,
-                    ForeColor = Color.White,
+                    ForeColor = Color.White, // Color del texto blanco
                     BackColor = Color.Transparent,
                     Font = new Font("Arial", 10, FontStyle.Regular)
                 };
 
-                // Agregar el texto al panel y el panel al contenedor
                 panel.Controls.Add(label);
                 scrollablePanel.Controls.Add(panel);
-
                 index++;
             }
 
-            // Agregar el panel contenedor con desplazamiento al formulario
-            this.Controls.Clear(); // Limpiar controles anteriores
+            // Actualizar el panel de contenido
             this.Controls.Add(scrollablePanel);
         }
+
+        private void BtnComanda_Click(object sender, EventArgs e)
+        {
+            // Crear una instancia del formulario Comanda
+            Comanda comandaForm = new Comanda();
+
+            // Pasar el nombre del usuario al formulario de Comanda
+            comandaForm.NombreUsuario = this.NombreUsuario;
+
+            // Mostrar el formulario de Comanda
+            comandaForm.Show();
+
+            // Cerrar el formulario actual (Eskaera)
+            this.Close();
+        }
+
+
 
         // Clase para crear rectángulos con esquinas redondeadas
         public static class GraphicsPathHelper
