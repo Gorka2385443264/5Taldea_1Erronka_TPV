@@ -62,6 +62,14 @@ namespace erronka1_talde5_tpv
 
         private void DisplayEskaerasAsText(IList<Eskaera2> listaEskaeras, Dictionary<int, string> langileak)
         {
+            // Crear un panel contenedor con desplazamiento
+            Panel scrollablePanel = new Panel
+            {
+                Dock = DockStyle.Fill, // Ocupa toda la ventana
+                AutoScroll = true,    // Habilitar desplazamiento
+                BackColor = this.BackColor // Igualar fondo con el formulario
+            };
+
             int verticalSpacing = 10;
             int horizontalSpacing = 10;
             int topMargin = 20;
@@ -108,7 +116,7 @@ namespace erronka1_talde5_tpv
                            $"Langilea: {langileIzena}\n" +
                            $"Mahaila ID: {eskaera.MahailaId}\n" +
                            $"Platera ID: {eskaera.Platera}\n" +
-                           $"Nota: {eskaera.Nota}\n", // Eliminado egoera, done y EskaeraDone
+                           $"Nota: {(string.IsNullOrWhiteSpace(eskaera.Nota) ? "Sin nota" : eskaera.Nota)}\n",
                     AutoSize = false,
                     TextAlign = ContentAlignment.MiddleLeft,
                     Dock = DockStyle.Fill,
@@ -117,12 +125,16 @@ namespace erronka1_talde5_tpv
                     Font = new Font("Arial", 10, FontStyle.Regular)
                 };
 
-                // Agregar el texto al panel y el panel al formulario
+                // Agregar el texto al panel y el panel al contenedor
                 panel.Controls.Add(label);
-                this.Controls.Add(panel);
+                scrollablePanel.Controls.Add(panel);
 
                 index++;
             }
+
+            // Agregar el panel contenedor con desplazamiento al formulario
+            this.Controls.Clear(); // Limpiar controles anteriores
+            this.Controls.Add(scrollablePanel);
         }
 
         // Clase para crear rectángulos con esquinas redondeadas
