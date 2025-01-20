@@ -10,7 +10,6 @@ namespace erronka1_talde5_tpv
         public Login()
         {
             InitializeComponent();
-            // Establecer el formulario en pantalla completa
             this.WindowState = FormWindowState.Maximized;
         }
 
@@ -20,13 +19,29 @@ namespace erronka1_talde5_tpv
 
         private void Login_Load(object sender, EventArgs e)
         {
-            // Centrar los controles
             CenterControls();
 
-            logInButton.BackColor = Color.FromArgb(118, 138, 153);
-            this.BackColor = Color.FromArgb(52, 90, 123);
+            // Cambiar colores según lo solicitado
+            logInButton.BackColor = ColorTranslator.FromHtml("#BA450D");
+            logInButton.ForeColor = Color.White;
+            this.BackColor = ColorTranslator.FromHtml("#091725");
+            emailText.BackColor = ColorTranslator.FromHtml("#E89E47");
+            pasahitzaText.BackColor = ColorTranslator.FromHtml("#E89E47");
+
+            emailText.ForeColor = Color.Black;
+            pasahitzaText.ForeColor = Color.Black;
 
             pasahitzaText.PasswordChar = '*';
+
+            // Asignar la imagen desde los recursos
+            try
+            {
+                logoPictureBox.Image = Image.FromFile(@"C:\Users\barto\OneDrive\Escritorio\5Taldea_Erronka1\5Taldea_1Erronka_TPV\erronka1_talde5_tpv\erronka1_talde5_tpv\Resources\saboreame.png");
+            }
+            catch
+            {
+                MessageBox.Show("No se pudo cargar la imagen del logo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void logInButton_Click(object sender, EventArgs e)
@@ -46,7 +61,6 @@ namespace erronka1_talde5_tpv
             {
                 try
                 {
-                    // Consulta HQL para verificar el email y la contraseña
                     string hql = @"FROM Langilea WHERE Email = :emailParam AND Pasahitza = :pasahitzaParam";
 
                     var query = mySession.CreateQuery(hql);
@@ -57,7 +71,7 @@ namespace erronka1_talde5_tpv
 
                     if (resultado != null)
                     {
-                        mySession.Evict(resultado); // Evitar que NHibernate intente actualizar el objeto automáticamente
+                        mySession.Evict(resultado);
 
                         Comanda comandaForm = new Comanda
                         {
@@ -68,7 +82,6 @@ namespace erronka1_talde5_tpv
                     }
                     else
                     {
-                        // Credenciales incorrectas
                         MessageBox.Show("Credenciales incorrectas. ¡Adiós!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
@@ -86,22 +99,24 @@ namespace erronka1_talde5_tpv
             }
         }
 
-        // Método para centrar los controles
         private void CenterControls()
         {
-            // Centrar el formulario
             this.StartPosition = FormStartPosition.CenterScreen;
 
-            // Centrar el botón de login
-            logInButton.Left = (this.ClientSize.Width - logInButton.Width) / 2;
-            logInButton.Top = (this.ClientSize.Height - logInButton.Height) / 2 + 50; // Centrado vertical y desplazado hacia abajo
+            // Posicionar el logo
+            logoPictureBox.Left = (this.ClientSize.Width - logoPictureBox.Width) / 2;
+            logoPictureBox.Top = 50;
 
-            // Centrar los campos de texto
+            // Posicionar los campos de texto
             emailText.Left = (this.ClientSize.Width - emailText.Width) / 2;
-            emailText.Top = logInButton.Top - 60;
+            emailText.Top = logoPictureBox.Top + logoPictureBox.Height + 20;
 
-            pasahitzaText.Left = (this.ClientSize.Width - pasahitzaText.Width) / 2;
-            pasahitzaText.Top = emailText.Top + 40;
+            pasahitzaText.Left = emailText.Left;
+            pasahitzaText.Top = emailText.Top + emailText.Height + 10;
+
+            // Centrar el botón debajo de los TextBox
+            logInButton.Left = (this.ClientSize.Width - logInButton.Width) / 2;
+            logInButton.Top = pasahitzaText.Top + pasahitzaText.Height + 20;
         }
     }
 }
