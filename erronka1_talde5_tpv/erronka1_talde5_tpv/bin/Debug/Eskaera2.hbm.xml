@@ -13,6 +13,6 @@
 		<property name="Nota" column="nota" type="string"/>
 		<property name="Egoera" column="egoera" type="string"/>
 		<property name="Done" column="done" type="boolean"/>
-		<property name="EskaeraDone" column="eskaeradone" type="datetime" />
+		<property name="EskaeraDone" column="eskaeradone" type="datetime" not-null="false"/>
 	</class>
 </hibernate-mapping>

@@ -145,11 +145,14 @@ namespace erronka1_talde5_tpv
         // Métodos de eventos para los botones
         private void ButtonEskaera_Click(object sender, EventArgs e)
         {
-            // Lógica para abrir la pantalla de Eskaera
-            Eskaera eskaeraForm = new Eskaera();
+            Eskaera eskaeraForm = new Eskaera
+            {
+                NombreUsuario = NombreUsuario // Pasar el nombre del usuario
+            };
             eskaeraForm.Show();
-            this.Hide(); // Oculta la pantalla actual
+            this.Hide();
         }
+
 
         private void ButtonHacerPedido_Click(object sender, EventArgs e)
         {
