@@ -52,8 +52,8 @@ namespace erronka1_talde5_tpv
                     var query = mySession.CreateQuery(hql);
                     query.SetParameter("emailParam", emailText.Text);
                     query.SetParameter("pasahitzaParam", pasahitzaText.Text);
-
                     var resultado = query.UniqueResult<erronka1_talde5_tpv.Langilea>();
+
 
                     if (resultado != null)
                     {
@@ -102,5 +102,6 @@ namespace erronka1_talde5_tpv
             pasahitzaText.Left = (this.ClientSize.Width - pasahitzaText.Width) / 2;
             pasahitzaText.Top = emailText.Top + 40;
         }
+
     }
 }
