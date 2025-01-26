@@ -138,9 +138,8 @@ namespace erronka1_talde5_tpv
 
         private void ButtonTxat_Click(object sender, EventArgs e)
         {
-            txat txatForm = new txat();
+            txat txatForm = new txat(NombreUsuario);
             txatForm.Show();
-            this.Hide(); // Oculta la pantalla actual
         }
 
         // Métodos de eventos para los botones

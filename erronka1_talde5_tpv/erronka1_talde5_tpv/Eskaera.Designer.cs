@@ -38,7 +38,7 @@ namespace erronka1_talde5_tpv
             this.btnComanda.Text = "Volver";
             this.btnComanda.BackColor = ColorTranslator.FromHtml("#E89E47");
             this.btnComanda.UseVisualStyleBackColor = true;
-            this.btnComanda.Click += new System.EventHandler(this.BtnComanda_Click);
+            this.btnComanda.Click += new System.EventHandler(this.BtnVolver_Click);
             // 
             // Eskaera
             // 

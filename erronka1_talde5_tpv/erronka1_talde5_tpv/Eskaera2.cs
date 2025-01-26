@@ -2,15 +2,13 @@
 
 namespace erronka1_talde5_tpv
 {
-    internal class Eskaera2
+    internal class EskaeraPlatera
     {
         public virtual int Id { get; set; }  // id
-        public virtual int LangileaId { get; set; }  // langilea_id
-        public virtual int MahailaId { get; set; }   // mahaila_id
-        public virtual string Platera { get; set; }  // platera
-        public virtual string Nota { get; set; }     // nota
-        public virtual string Egoera { get; set; }   // egoera
-        public virtual bool Done { get; set; }       // done
-        public virtual DateTime? EskaeraDone { get; set; }  // EskaeraDone (puede ser null)
+        public virtual int EskaeraId { get; set; }  // eskaera_id
+        public virtual int PlateraId { get; set; }  // platera_id
+        public virtual string NotaGehigarriak { get; set; }  // nota_gehigarriak
+        public virtual DateTime EskaeraOrdua { get; set; }  // eskaera_ordua
+        public virtual DateTime AteratzeOrdua { get; set; }  // ateratze_ordua
     }
 }

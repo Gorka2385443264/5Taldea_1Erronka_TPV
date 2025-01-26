@@ -3,16 +3,14 @@
                    assembly="erronka1_talde5_tpv"
                    namespace="erronka1_talde5_tpv">
 
-	<class name="erronka1_talde5_tpv.Eskaera2" table="eskaera">
+	<class name="erronka1_talde5_tpv.EskaeraPlatera" table="eskaera_platera">
 		<id name="Id" column="id" type="int">
 			<generator class="identity" />
 		</id>
-		<property name="LangileaId" column="langilea_id" type="int"/>
-		<property name="MahailaId" column="mahaila_id" type="int"/>
-		<property name="Platera" column="platera" type="string"/>
-		<property name="Nota" column="nota" type="string"/>
-		<property name="Egoera" column="egoera" type="string"/>
-		<property name="Done" column="done" type="boolean"/>
-		<property name="EskaeraDone" column="eskaeradone" type="datetime" not-null="false"/>
+		<property name="EskaeraId" column="eskaera_id" type="int"/>
+		<property name="PlateraId" column="platera_id" type="int"/>
+		<property name="NotaGehigarriak" column="nota_gehigarriak" type="string"/>
+		<property name="EskaeraOrdua" column="eskaera_ordua" type="datetime"/>
+		<property name="AteratzeOrdua" column="ateratze_ordua" type="datetime"/>
 	</class>
 </hibernate-mapping>
