@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace erronka1_talde5_tpv
@@ -26,18 +27,15 @@ namespace erronka1_talde5_tpv
                 var configuration = new NHibernate.Cfg.Configuration();
                 configuration.Configure(); // Lee el app.config (incluye <mapping assembly>)
 
-                // ¡No agregues mapeos manualmente!
-                // configuration.AddClass(typeof(Platera)); // <-- Elimina esto
-                // configuration.AddClass(typeof(Eskaera2)); // <-- Elimina esto
-
                 mySessionFactory = configuration.BuildSessionFactory();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al configurar NHibernate: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                mySessionFactory = null;
+                throw; // Lanzar la excepción para detener la ejecución
             }
         }
+
         private void Eskaera_Load(object sender, EventArgs e)
         {
             this.BackColor = ColorTranslator.FromHtml("#091725");
@@ -54,25 +52,36 @@ namespace erronka1_talde5_tpv
                 {
                     try
                     {
-                        // Obtener las comandas
-                        var comandas = session.CreateQuery("FROM Eskaera2").List<Eskaera2>();
+                        // Obtener todas las comandas (solo lectura)
+                        var comandas = session.CreateQuery("FROM Eskaera2")
+                                              .SetReadOnly(true)
+                                              .List<Eskaera2>();
 
-                        // Desvincular entidades para evitar updates no deseados
-                        session.Clear();
+                        // Agrupar comandas por eskaera_id
+                        var comandasAgrupadas = comandas
+                            .GroupBy(c => c.EskaeraId)
+                            .Select(g => (
+                                EskaeraId: g.Key,
+                                Platos: g.Select(c => (
+                                    PlatoId: c.PlateraId,
+                                    Notas: c.NotaGehigarriak,
+                                    Hora: c.EskaeraOrdua
+                                )).ToList()
+                            )).ToList();
 
-                        // Mostrar los datos
-                        DisplayComandas(comandas);
+                        // Mostrar los datos agrupados
+                        DisplayComandasAgrupadas(comandasAgrupadas);
                         transaction.Commit();
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"Error al cargar comandas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        transaction.Rollback(); // Asegúrate de revertir la transacción
+                        MessageBox.Show($"Error al cargar comandas: {ex.Message}\n\n{ex.StackTrace}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        transaction.Rollback();
                     }
                 }
             }
         }
-        private void DisplayComandas(IList<Eskaera2> comandas)
+        private void DisplayComandasAgrupadas(List<(int EskaeraId, List<(int PlatoId, string Notas, DateTime Hora)> Platos)> comandasAgrupadas)
         {
             Panel panelContenedor = new Panel
             {
@@ -82,51 +91,93 @@ namespace erronka1_talde5_tpv
             };
 
             // Configuración del layout
-            int anchoCuadro = 250;
-            int altoCuadro = 180;
-            int separacion = 20;
-            int maxColumnas = 4;
+            int anchoCuadro = 350;  // Ancho fijo del cuadro
+            int altoCuadro = 200;   // Altura fija del cuadro
+            int separacion = 15;    // Espacio entre cuadros
+            int maxColumnas = 3;    // Máximo de columnas por fila
 
             int margenIzquierdo = (this.ClientSize.Width - (maxColumnas * (anchoCuadro + separacion))) / 2;
-            margenIzquierdo = Math.Max(margenIzquierdo, 20);
+            margenIzquierdo = Math.Max(margenIzquierdo, 15);
 
-            for (int i = 0; i < comandas.Count; i++)
+            for (int i = 0; i < comandasAgrupadas.Count; i++)
             {
                 int fila = i / maxColumnas;
                 int columna = i % maxColumnas;
 
+                // Panel principal del cuadro
                 Panel cuadro = new Panel
                 {
                     Width = anchoCuadro,
                     Height = altoCuadro,
                     Left = margenIzquierdo + columna * (anchoCuadro + separacion),
-                    Top = 20 + fila * (altoCuadro + separacion),
+                    Top = 15 + fila * (altoCuadro + separacion),
                     BackColor = ColorTranslator.FromHtml("#BA450D"),
                     Padding = new Padding(10)
                 };
 
-                // Obtener nombre del plato
-                string nombrePlato = ObtenerNombrePlato(comandas[i].PlateraId);
-                Label contenido = new Label
+                // ---- Comanda ID (Grande, arriba a la izquierda) ----
+                Label lblComandaId = new Label
                 {
-                    Text = $"Comanda ID: {comandas[i].Id}\n" +
-                           $"Eskaera ID: {comandas[i].EskaeraId}\n" + // <-- ¡Línea añadida!
-                           $"Hora pedido: {comandas[i].EskaeraOrdua:HH:mm}\n" +
-                           $"Plato: {nombrePlato}\n" +
-                           $"Notas: {comandas[i].NotaGehigarriak ?? "Ninguna"}",
-                    Dock = DockStyle.Fill,
+                    Text = $"Comanda ID: {comandasAgrupadas[i].EskaeraId}",
+                    Font = new Font("Arial", 16, FontStyle.Bold),
                     ForeColor = Color.White,
-                    TextAlign = ContentAlignment.MiddleLeft,
-                    Font = new Font("Arial", 10)
+                    Dock = DockStyle.Top,
+                    Height = 40,
+                    TextAlign = ContentAlignment.MiddleLeft
                 };
 
-                cuadro.Controls.Add(contenido);
+                // ---- Espacio entre Comanda ID y Plato ----
+                Panel espacio = new Panel
+                {
+                    Dock = DockStyle.Top,
+                    Height = 10,
+                    BackColor = Color.Transparent
+                };
+
+                // ---- Contenedor para los platos ----
+                Panel panelPlatos = new Panel
+                {
+                    Dock = DockStyle.Fill,
+                    AutoScroll = true,
+                    BackColor = Color.Transparent
+                };
+
+                // ---- Agregar cada plato y sus notas ----
+                foreach (var plato in comandasAgrupadas[i].Platos)
+                {
+                    Label lblPlato = new Label
+                    {
+                        Text = $"PLATO: {ObtenerNombrePlato(plato.PlatoId)}\nNOTAS: {plato.Notas ?? "Ninguna"}\nHORA: {plato.Hora.ToString("HH:mm")}",
+                        Font = new Font("Arial", 10),
+                        ForeColor = Color.White,
+                        Dock = DockStyle.Top,
+                        AutoSize = true,
+                        Margin = new Padding(0, 0, 0, 10)  // Margen inferior entre platos
+                    };
+
+                    panelPlatos.Controls.Add(lblPlato);
+
+                    // Agregar un separador entre platos
+                    Panel separador = new Panel
+                    {
+                        Height = 1,
+                        Dock = DockStyle.Top,
+                        BackColor = Color.White
+                    };
+                    panelPlatos.Controls.Add(separador);
+                }
+
+                // Añadir controles al cuadro principal
+                cuadro.Controls.Add(panelPlatos);  // Platos y notas
+                cuadro.Controls.Add(espacio);      // Espacio entre Comanda ID y Plato
+                cuadro.Controls.Add(lblComandaId); // Comanda ID en la parte superior
+
                 panelContenedor.Controls.Add(cuadro);
             }
 
             this.Controls.Add(panelContenedor);
 
-            // Botón de volver (ajustado para evitar solapamientos)
+            // Botón de volver
             Button btnVolver = new Button
             {
                 Text = "Volver",
@@ -136,10 +187,9 @@ namespace erronka1_talde5_tpv
                 ForeColor = Color.Black,
                 Font = new Font("Arial", 10, FontStyle.Bold)
             };
-            btnVolver.Click += (s, ev) => this.Close();
+            btnVolver.Click += BtnVolver_Click;
             this.Controls.Add(btnVolver);
         }
-
         private void BtnVolver_Click(object sender, EventArgs e)
         {
             this.Close(); // Cierra la ventana actual
