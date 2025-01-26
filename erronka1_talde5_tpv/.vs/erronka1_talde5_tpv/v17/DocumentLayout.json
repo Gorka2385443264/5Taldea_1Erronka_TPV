@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\barto\\OneDrive\\Escritorio\\erronka1_talde5_tpv\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|C:\\Users\\barto\\OneDrive\\Escritorio\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\eskaera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|solutionrelative:erronka1_talde5_tpv\\eskaera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|c:\\users\\barto\\onedrive\\escritorio\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\eskaera.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BE30B151-309F-4119-AB13-6EFA2BC04985}|erronka1_talde5_tpv\\erronka1_talde5_tpv.csproj|solutionrelative:erronka1_talde5_tpv\\eskaera.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Eskaera.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\barto\\OneDrive\\Escritorio\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\Eskaera.Designer.cs",
+              "RelativeDocumentMoniker": "erronka1_talde5_tpv\\Eskaera.Designer.cs",
+              "ToolTip": "C:\\Users\\barto\\OneDrive\\Escritorio\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\Eskaera.Designer.cs",
+              "RelativeToolTip": "erronka1_talde5_tpv\\Eskaera.Designer.cs",
+              "ViewState": "AQIAABsAAAAAAAAAAAAUwCgAAABTAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-26T16:58:14.382Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Eskaera.cs",
+              "DocumentMoniker": "C:\\Users\\barto\\OneDrive\\Escritorio\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\Eskaera.cs",
+              "RelativeDocumentMoniker": "erronka1_talde5_tpv\\Eskaera.cs",
+              "ToolTip": "C:\\Users\\barto\\OneDrive\\Escritorio\\erronka1_talde5_tpv\\erronka1_talde5_tpv\\Eskaera.cs",
+              "RelativeToolTip": "erronka1_talde5_tpv\\Eskaera.cs",
+              "ViewState": "AQIAAHEAAAAAAAAAAAAmwIUAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-26T16:52:58.486Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
