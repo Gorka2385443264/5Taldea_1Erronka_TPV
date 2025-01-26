@@ -184,7 +184,10 @@ C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\D
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\K4os.Compression.LZ4.Streams.dll
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\K4os.Hash.xxHash.dll
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Microsoft.Extensions.Logging.Abstractions.dll
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\MySql.Data.dll
+C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\MySqlConnector.dll
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\NHibernate.dll
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Remotion.Linq.dll
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Remotion.Linq.EagerFetching.dll
@@ -206,7 +209,10 @@ C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\D
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\K4os.Compression.LZ4.Streams.xml
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\K4os.Hash.xxHash.xml
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.xml
+C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Microsoft.Extensions.Logging.Abstractions.xml
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\MySql.Data.xml
+C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\MySqlConnector.xml
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\NHibernate.xml
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Remotion.Linq.xml
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Remotion.Linq.EagerFetching.xml

@@ -2,14 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace erronka1_talde5_tpv
 {
     public partial class Eskaera : Form
     {
-        private NHibernate.Cfg.Configuration miConfiguracion;
         private ISessionFactory mySessionFactory;
 
         public string NombreUsuario { get; set; }
@@ -18,122 +16,149 @@ namespace erronka1_talde5_tpv
         {
             InitializeComponent();
             this.WindowState = FormWindowState.Maximized;
+            ConfigureNHibernate(); // Configurar NHibernate al iniciar
         }
 
+        private void ConfigureNHibernate()
+        {
+            try
+            {
+                var configuration = new NHibernate.Cfg.Configuration();
+                configuration.Configure(); // Lee el app.config (incluye <mapping assembly>)
+
+                // ¡No agregues mapeos manualmente!
+                // configuration.AddClass(typeof(Platera)); // <-- Elimina esto
+                // configuration.AddClass(typeof(Eskaera2)); // <-- Elimina esto
+
+                mySessionFactory = configuration.BuildSessionFactory();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al configurar NHibernate: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                mySessionFactory = null;
+            }
+        }
         private void Eskaera_Load(object sender, EventArgs e)
         {
-            // Cambiar el fondo del formulario
             this.BackColor = ColorTranslator.FromHtml("#091725");
 
-            // Configurar NHibernate
-            miConfiguracion = new NHibernate.Cfg.Configuration();
-            miConfiguracion.Configure();
-            mySessionFactory = miConfiguracion.BuildSessionFactory();
-
-            // Consulta para obtener los platos de una comanda específica
-            using (var mySession = mySessionFactory.OpenSession())
+            if (mySessionFactory == null)
             {
-                using (var transaccion = mySession.BeginTransaction())
+                MessageBox.Show("NHibernate no se configuró correctamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            using (var session = mySessionFactory.OpenSession())
+            {
+                using (var transaction = session.BeginTransaction())
                 {
                     try
                     {
-                        // Obtener los platos de la tabla eskaera_platera
-                        string hqlEskaeraPlatera = "FROM EskaeraPlatera";
-                        var listaEskaeraPlatera = mySession.CreateQuery(hqlEskaeraPlatera).List<EskaeraPlatera>();
+                        // Obtener las comandas
+                        var comandas = session.CreateQuery("FROM Eskaera2").List<Eskaera2>();
 
-                        // Evitar que NHibernate intente actualizar las entidades no deseadas
-                        mySession.Clear();
+                        // Desvincular entidades para evitar updates no deseados
+                        session.Clear();
 
-                        // Mostrar los resultados en la pantalla
-                        DisplayEskaeraPlateraAsText(listaEskaeraPlatera);
-
-                        transaccion.Commit();
+                        // Mostrar los datos
+                        DisplayComandas(comandas);
+                        transaction.Commit();
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"Error al obtener los platos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show($"Error al cargar comandas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        transaction.Rollback(); // Asegúrate de revertir la transacción
                     }
                 }
             }
         }
-
-        private void DisplayEskaeraPlateraAsText(IList<EskaeraPlatera> listaEskaeraPlatera)
+        private void DisplayComandas(IList<Eskaera2> comandas)
         {
-            // Crear un panel contenedor con desplazamiento
-            Panel scrollablePanel = new Panel
+            Panel panelContenedor = new Panel
             {
                 Dock = DockStyle.Fill,
                 AutoScroll = true,
-                BackColor = this.BackColor
+                BackColor = ColorTranslator.FromHtml("#091725")
             };
 
-            int verticalSpacing = 20;
-            int cuadroWidth = 200;
-            int cuadroHeight = 150;
-            int maxCuadrosPorFila = 5;
+            // Configuración del layout
+            int anchoCuadro = 250;
+            int altoCuadro = 180;
+            int separacion = 20;
+            int maxColumnas = 4;
 
-            int visibleWidth = this.ClientSize.Width;
-            int totalRowWidth = maxCuadrosPorFila * cuadroWidth + (maxCuadrosPorFila - 1) * verticalSpacing;
-            int leftMargin = Math.Max((visibleWidth - totalRowWidth) / 2, 20);
+            int margenIzquierdo = (this.ClientSize.Width - (maxColumnas * (anchoCuadro + separacion))) / 2;
+            margenIzquierdo = Math.Max(margenIzquierdo, 20);
 
-            int index = 0;
-            foreach (EskaeraPlatera platera in listaEskaeraPlatera)
+            for (int i = 0; i < comandas.Count; i++)
             {
-                int row = index / maxCuadrosPorFila;
-                int column = index % maxCuadrosPorFila;
+                int fila = i / maxColumnas;
+                int columna = i % maxColumnas;
 
-                Panel panel = new Panel
+                Panel cuadro = new Panel
                 {
-                    Width = cuadroWidth,
-                    Height = cuadroHeight,
-                    Left = leftMargin + (column * (cuadroWidth + verticalSpacing)),
-                    Top = 20 + (row * (cuadroHeight + verticalSpacing)),
+                    Width = anchoCuadro,
+                    Height = altoCuadro,
+                    Left = margenIzquierdo + columna * (anchoCuadro + separacion),
+                    Top = 20 + fila * (altoCuadro + separacion),
                     BackColor = ColorTranslator.FromHtml("#BA450D"),
                     Padding = new Padding(10)
                 };
 
-                Label label = new Label
+                // Obtener nombre del plato
+                string nombrePlato = ObtenerNombrePlato(comandas[i].PlateraId);
+                Label contenido = new Label
                 {
-                    Text = $"ID: {platera.Id}\n" +
-                           $"Eskaera ID: {platera.EskaeraId}\n" +
-                           $"Platera ID: {platera.PlateraId}\n" +
-                           $"Nota: {(string.IsNullOrWhiteSpace(platera.NotaGehigarriak) ? "Sin nota" : platera.NotaGehigarriak)}\n" +
-                           $"Eskaera Ordua: {platera.EskaeraOrdua}\n" +
-                           $"Ateratze Ordua: {platera.AteratzeOrdua}",
-                    AutoSize = false,
-                    TextAlign = ContentAlignment.MiddleLeft,
+                    Text = $"Comanda ID: {comandas[i].Id}\n" +
+                           $"Eskaera ID: {comandas[i].EskaeraId}\n" + // <-- ¡Línea añadida!
+                           $"Hora pedido: {comandas[i].EskaeraOrdua:HH:mm}\n" +
+                           $"Plato: {nombrePlato}\n" +
+                           $"Notas: {comandas[i].NotaGehigarriak ?? "Ninguna"}",
                     Dock = DockStyle.Fill,
                     ForeColor = Color.White,
-                    BackColor = Color.Transparent,
-                    Font = new Font("Arial", 10, FontStyle.Regular)
+                    TextAlign = ContentAlignment.MiddleLeft,
+                    Font = new Font("Arial", 10)
                 };
 
-                panel.Controls.Add(label);
-                scrollablePanel.Controls.Add(panel);
-                index++;
+                cuadro.Controls.Add(contenido);
+                panelContenedor.Controls.Add(cuadro);
             }
 
-            // Actualizar el panel de contenido
-            this.Controls.Add(scrollablePanel);
+            this.Controls.Add(panelContenedor);
 
-            // Agregar botón de volver
+            // Botón de volver (ajustado para evitar solapamientos)
             Button btnVolver = new Button
             {
                 Text = "Volver",
-                Location = new Point(20, this.ClientSize.Height - 60),
-                Size = new Size(100, 40),
-                BackColor = Color.FromArgb(50, 50, 50),
-                ForeColor = Color.White
+                Size = new Size(120, 40),
+                Location = new Point(20, this.ClientSize.Height - 70),
+                BackColor = ColorTranslator.FromHtml("#E89E47"),
+                ForeColor = Color.Black,
+                Font = new Font("Arial", 10, FontStyle.Bold)
             };
-            btnVolver.Click += BtnVolver_Click;
+            btnVolver.Click += (s, ev) => this.Close();
             this.Controls.Add(btnVolver);
         }
 
         private void BtnVolver_Click(object sender, EventArgs e)
         {
-            this.Close(); // Esto cierra la ventana actual
+            this.Close(); // Cierra la ventana actual
         }
 
-
+        private string ObtenerNombrePlato(int plateraId)
+        {
+            try
+            {
+                using (var session = mySessionFactory.OpenSession())
+                {
+                    var plato = session.Get<Platera>(plateraId);
+                    return plato?.Izena ?? "Plato desconocido";
+                }
+            }
+            catch
+            {
+                return "Error al cargar el nombre";
+            }
+        }
     }
 }

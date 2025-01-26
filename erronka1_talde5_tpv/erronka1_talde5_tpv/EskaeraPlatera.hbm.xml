@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+	<class name="erronka1_talde5_tpv.EskaeraPlatera" table="eskaera_platera">
+		<id name="Id" column="id" type="int">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="Eskaera" column="eskaera_id" class="erronka1_talde5_tpv.Eskaera" />
+		<many-to-one name="Platera" column="platera_id" class="erronka1_talde5_tpv.Platera" />
+		<property name="NotaGehigarriak" column="nota_gehigarriak" type="string" />
+		<property name="EskaeraOrdua" column="eskaera_ordua" type="timestamp" />
+		<property name="AteratzeOrdua" column="ateratze_ordua" type="timestamp" />
+	</class>
+</hibernate-mapping>
