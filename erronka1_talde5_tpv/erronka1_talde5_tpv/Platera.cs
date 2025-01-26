@@ -3,6 +3,7 @@
     public class Platera
     {
         public virtual int Id { get; set; }  // id
-        public virtual string Izena { get; set; }  // izena
+        public virtual string Izena { get; set; }  // nombre del plato
+        public virtual int Prezioa { get; set; }  // precio del plato (entero)
     }
 }
