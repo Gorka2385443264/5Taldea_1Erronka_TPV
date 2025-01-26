@@ -51,9 +51,8 @@ namespace erronka1_talde5_tpv
             int buttonWidth = 150;
             int buttonHeight = 50;
             int horizontalSpacing = 20;
-            int verticalSpacing = 20;
 
-            // Fila 1 de botones
+            // Crear el botón "Eskaera"
             Button buttonEskaera = new Button
             {
                 Text = "Eskaera",
@@ -65,84 +64,20 @@ namespace erronka1_talde5_tpv
             buttonEskaera.Click += ButtonEskaera_Click;
             this.Controls.Add(buttonEskaera);
 
-            Button buttonHacerPedido = new Button
+            // Crear el botón "Caja" a la derecha de "Eskaera"
+            Button buttonCaja = new Button
             {
-                Text = "Hacer Pedido",
+                Text = "Caja",
                 Width = buttonWidth,
                 Height = buttonHeight,
-                Left = buttonEskaera.Right + horizontalSpacing, // A la derecha del primero
-                Top = buttonEskaera.Top
+                Left = buttonEskaera.Right + horizontalSpacing, // A la derecha de "Eskaera"
+                Top = buttonEskaera.Top // Mismo nivel vertical
             };
-            buttonHacerPedido.Click += ButtonHacerPedido_Click;
-            this.Controls.Add(buttonHacerPedido);
-
-            // Fila 2 de botones
-            Button buttonVerFacturas = new Button
-            {
-                Text = "Ver Facturas",
-                Width = buttonWidth,
-                Height = buttonHeight,
-                Left = (this.ClientSize.Width - 2 * buttonWidth - horizontalSpacing) / 2, // Centrado horizontalmente
-                Top = buttonEskaera.Bottom + verticalSpacing // Justo debajo de la fila 1
-            };
-            buttonVerFacturas.Click += ButtonVerFacturas_Click;
-            this.Controls.Add(buttonVerFacturas);
-
-            Button buttonCancelarPedido = new Button
-            {
-                Text = "Cancelar Pedido",
-                Width = buttonWidth,
-                Height = buttonHeight,
-                Left = buttonVerFacturas.Right + horizontalSpacing, // A la derecha del primero
-                Top = buttonVerFacturas.Top
-            };
-            buttonCancelarPedido.Click += ButtonCancelarPedido_Click;
-            this.Controls.Add(buttonCancelarPedido);
-
-            // Fila 3 de botones
-            Button buttonVerMesas = new Button
-            {
-                Text = "Ver Mesas",
-                Width = buttonWidth,
-                Height = buttonHeight,
-                Left = (this.ClientSize.Width - 2 * buttonWidth - horizontalSpacing) / 2, // Centrado horizontalmente
-                Top = buttonVerFacturas.Bottom + verticalSpacing // Justo debajo de la fila 2
-            };
-            buttonVerMesas.Click += ButtonVerMesas_Click;
-            this.Controls.Add(buttonVerMesas);
-
-            // Botón Ajustes
-            Button buttonAjustes = new Button
-            {
-                Text = "Ajustes",
-                Width = buttonWidth,
-                Height = buttonHeight,
-                Left = buttonVerMesas.Right + horizontalSpacing, // A la derecha del primero
-                Top = buttonVerMesas.Top
-            };
-            buttonAjustes.Click += ButtonAjustes_Click;
-            this.Controls.Add(buttonAjustes);
-
-            // Nuevo botón "Txat" debajo de los otros botones
-            Button buttonTxat = new Button
-            {
-                Text = "Txat",
-                Width = buttonWidth,
-                Height = buttonHeight,
-                Left = (this.ClientSize.Width - buttonWidth) / 2, // Centrado horizontalmente
-                Top = buttonAjustes.Bottom + verticalSpacing + 20 // Justo debajo de los botones anteriores
-            };
-            buttonTxat.Click += ButtonTxat_Click;
-            this.Controls.Add(buttonTxat);
+            buttonCaja.Click += ButtonCaja_Click;
+            this.Controls.Add(buttonCaja);
         }
 
-        private void ButtonTxat_Click(object sender, EventArgs e)
-        {
-            txat txatForm = new txat(NombreUsuario);
-            txatForm.Show();
-        }
-
-        // Métodos de eventos para los botones
+        // Método para manejar el clic en el botón "Eskaera"
         private void ButtonEskaera_Click(object sender, EventArgs e)
         {
             Eskaera eskaeraForm = new Eskaera
@@ -153,35 +88,11 @@ namespace erronka1_talde5_tpv
             this.Hide();
         }
 
-
-        private void ButtonHacerPedido_Click(object sender, EventArgs e)
+        // Método para manejar el clic en el botón "Caja"
+        private void ButtonCaja_Click(object sender, EventArgs e)
         {
-            // Lógica para abrir la pantalla de hacer un pedido
-            MessageBox.Show("Abriendo pantalla para hacer un pedido...");
-        }
-
-        private void ButtonVerFacturas_Click(object sender, EventArgs e)
-        {
-            // Lógica para abrir la pantalla de ver facturas
-            MessageBox.Show("Abriendo pantalla para ver las facturas...");
-        }
-
-        private void ButtonCancelarPedido_Click(object sender, EventArgs e)
-        {
-            // Lógica para abrir la pantalla de cancelar un pedido
-            MessageBox.Show("Abriendo pantalla para cancelar un pedido...");
-        }
-
-        private void ButtonVerMesas_Click(object sender, EventArgs e)
-        {
-            // Lógica para abrir la pantalla de ver mesas
-            MessageBox.Show("Abriendo pantalla para ver las mesas...");
-        }
-
-        private void ButtonAjustes_Click(object sender, EventArgs e)
-        {
-            // Lógica para abrir la pantalla de ajustes
-            MessageBox.Show("Abriendo pantalla de ajustes...");
+            // Lógica para abrir la pantalla de caja (o cualquier funcionalidad que necesites)
+            MessageBox.Show("Abriendo la pantalla de Caja...");
         }
 
         // Método para crear el botón "Volver"
