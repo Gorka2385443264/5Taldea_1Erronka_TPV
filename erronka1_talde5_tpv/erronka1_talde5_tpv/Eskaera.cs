@@ -11,6 +11,7 @@ namespace erronka1_talde5_tpv
     {
         private ISessionFactory mySessionFactory;
         private string metodoPagoSeleccionado; // Variable para guardar el método de pago seleccionado
+        public static List<EskaeraPagada> EskaerasPagadas = new List<EskaeraPagada>();
 
         public string NombreUsuario { get; set; }
 
@@ -277,13 +278,13 @@ namespace erronka1_talde5_tpv
             Button btnPagar = sender as Button;
             if (btnPagar != null)
             {
-                int eskaeraId = (int)btnPagar.Tag; // Obtener el ID de la comanda desde el Tag
+                int eskaeraId = (int)btnPagar.Tag;
 
                 // Mostrar un MessageBox con opciones de pago
                 var result = MessageBox.Show(
                     "Seleccione el método de pago:\n\n¿Desea pagar en efectivo?",
                     "Método de Pago",
-                    MessageBoxButtons.YesNo, // Botones Sí (Efectivo) y No (Tarjeta)
+                    MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question,
                     MessageBoxDefaultButton.Button1
                 );
@@ -298,14 +299,40 @@ namespace erronka1_talde5_tpv
                     metodoPagoSeleccionado = "Tarjeta";
                 }
 
-                // Mostrar un mensaje con la opción seleccionada (esto es temporal)
-                MessageBox.Show($"Método de pago seleccionado para Comanda {eskaeraId}: {metodoPagoSeleccionado}", "Pago", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Calcular el precio total de la eskaera
+                decimal precioTotal = CalcularPrecioTotal(eskaeraId);
 
-                // Aquí puedes guardar el método de pago en la base de datos o en una variable para usarlo más tarde
-                // Por ejemplo, al generar el PDF.
+                // Guardar la eskaera pagada en la lista estática
+                EskaerasPagadas.Add(new EskaeraPagada
+                {
+                    EskaeraId = eskaeraId,
+                    PrecioTotal = precioTotal,
+                    MetodoPago = metodoPagoSeleccionado,
+                    FechaPago = DateTime.Now
+                });
+
+                MessageBox.Show($"Eskaera {eskaeraId} pagada con {metodoPagoSeleccionado}.", "Pago", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-        // Método para obtener el nombre y el precio de un plato
+
+        private decimal CalcularPrecioTotal(int eskaeraId)
+        {
+            using (var session = mySessionFactory.OpenSession())
+            {
+                var comandas = session.CreateQuery("FROM Eskaera2 WHERE EskaeraId = :eskaeraId")
+                                      .SetParameter("eskaeraId", eskaeraId)
+                                      .List<Eskaera2>();
+
+                decimal precioTotal = 0;
+                foreach (var comanda in comandas)
+                {
+                    var plato = ObtenerNombreYPrecioPlato(comanda.PlateraId);
+                    precioTotal += plato.Precio;
+                }
+
+                return precioTotal;
+            }
+        }        // Método para obtener el nombre y el precio de un plato
         private (string Nombre, decimal Precio) ObtenerNombreYPrecioPlato(int plateraId)
         {
             try
@@ -327,8 +354,11 @@ namespace erronka1_talde5_tpv
             // Cerrar la ventana actual (Eskaera.cs)
             this.Close();
 
-            // Abrir la ventana Comanda.cs
-            Comanda comandaForm = new Comanda();
+            // Abrir la ventana Comanda.cs y pasar el nombre de usuario
+            Comanda comandaForm = new Comanda
+            {
+                NombreUsuario = this.NombreUsuario // Pasar el nombre de usuario actual
+            };
             comandaForm.Show();
         }
     }

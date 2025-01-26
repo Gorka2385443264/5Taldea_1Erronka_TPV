@@ -58,7 +58,7 @@ namespace erronka1_talde5_tpv
                 Text = "Eskaera",
                 Width = buttonWidth,
                 Height = buttonHeight,
-                Left = (this.ClientSize.Width - 2 * buttonWidth - horizontalSpacing) / 2, // Centrado horizontalmente
+                Left = (this.ClientSize.Width - 3 * buttonWidth - 2 * horizontalSpacing) / 2, // Centrado horizontalmente
                 Top = questionLabel.Bottom + 20  // Justo debajo del label "¿Qué quieres hacer?"
             };
             buttonEskaera.Click += ButtonEskaera_Click;
@@ -75,6 +75,18 @@ namespace erronka1_talde5_tpv
             };
             buttonCaja.Click += ButtonCaja_Click;
             this.Controls.Add(buttonCaja);
+
+            // Crear el botón "Txat" a la derecha de "Caja"
+            Button buttonTxat = new Button
+            {
+                Text = "Txat",
+                Width = buttonWidth,
+                Height = buttonHeight,
+                Left = buttonCaja.Right + horizontalSpacing, // A la derecha de "Caja"
+                Top = buttonCaja.Top // Mismo nivel vertical
+            };
+            buttonTxat.Click += ButtonTxat_Click;
+            this.Controls.Add(buttonTxat);
         }
 
         // Método para manejar el clic en el botón "Eskaera"
@@ -101,6 +113,15 @@ namespace erronka1_talde5_tpv
             cajaForm.Show();
 
             // Ocultar la pantalla actual (Comanda.cs)
+            this.Hide();
+        }
+
+        // Método para manejar el clic en el botón "Txat"
+        private void ButtonTxat_Click(object sender, EventArgs e)
+        {
+            // Crear una instancia de la pantalla txat.cs
+            txat txatForm = new txat(NombreUsuario); // Pasar el nombre del usuario
+            txatForm.Show();
             this.Hide();
         }
 
