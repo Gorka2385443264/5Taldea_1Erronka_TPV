@@ -3,17 +3,18 @@
                    assembly="erronka1_talde5_tpv"
                    namespace="erronka1_talde5_tpv">
 
-	<class name="erronka1_talde5_tpv.Langilea" table="langilea">
+	<class name="erronka1_talde5_tpv.Langilea" table="langilea" mutable="false">
+		<!-- mutable="false" indica que la entidad es de solo lectura -->
 		<id name="Id" column="id" type="int">
 			<generator class="identity" />
 		</id>
-		<property name="Izena" column="izena" type="string"/>
-		<property name="Abizena" column="abizena" type="string"/>
-		<property name="Pasahitza" column="pasahitza" type="string"/>
-		<property name="Email" column="email" type="string"/>
-		<property name="NivelPermisos" column="nivel_permisos" type="int"/>
-		<property name="CreatedAt" column="created_at" type="datetime"/>
-		<property name="UpdatedAt" column="updated_at" type="datetime"/>
-		<property name="DeletedAt" column="deleted_at" type="datetime"/>
+		<property name="Izena" column="izena" type="string" />
+		<property name="Abizena" column="abizena" type="string" />
+		<property name="Pasahitza" column="pasahitza" type="string" />
+		<property name="Email" column="email" type="string" />
+		<property name="NivelPermisos" column="nivel_permisos" type="int" />
+		<property name="CreatedAt" column="created_at" type="datetime" />
+		<property name="UpdatedAt" column="updated_at" type="datetime" />
+		<property name="DeletedAt" column="deleted_at" type="datetime" />
 	</class>
 </hibernate-mapping>

@@ -91,8 +91,17 @@ namespace erronka1_talde5_tpv
         // Método para manejar el clic en el botón "Caja"
         private void ButtonCaja_Click(object sender, EventArgs e)
         {
-            // Lógica para abrir la pantalla de caja (o cualquier funcionalidad que necesites)
-            MessageBox.Show("Abriendo la pantalla de Caja...");
+            // Crear una instancia de la pantalla Caja.cs
+            Caja cajaForm = new Caja
+            {
+                NombreUsuario = NombreUsuario // Pasar el nombre del usuario si es necesario
+            };
+
+            // Mostrar la pantalla Caja.cs
+            cajaForm.Show();
+
+            // Ocultar la pantalla actual (Comanda.cs)
+            this.Hide();
         }
 
         // Método para crear el botón "Volver"

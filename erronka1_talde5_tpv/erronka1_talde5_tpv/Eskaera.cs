@@ -10,6 +10,7 @@ namespace erronka1_talde5_tpv
     public partial class Eskaera : Form
     {
         private ISessionFactory mySessionFactory;
+        private string metodoPagoSeleccionado; // Variable para guardar el método de pago seleccionado
 
         public string NombreUsuario { get; set; }
 
@@ -111,7 +112,7 @@ namespace erronka1_talde5_tpv
                     Width = anchoCuadro,
                     Height = altoCuadro,
                     Left = margenIzquierdo + columna * (anchoCuadro + separacion),
-                    Top = 15 + fila * (altoCuadro + separacion + 90), // +90 para los botones
+                    Top = 15 + fila * (altoCuadro + separacion + 140), // +140 para los botones y el precio total
                     BackColor = ColorTranslator.FromHtml("#BA450D"),
                     Padding = new Padding(10)
                 };
@@ -143,6 +144,9 @@ namespace erronka1_talde5_tpv
                     BackColor = Color.Transparent
                 };
 
+                // ---- Calcular el precio total de la comanda ----
+                decimal precioTotal = 0;
+
                 // ---- Agregar cada plato y sus notas ----
                 foreach (var plato in comandasAgrupadas[i].Platos)
                 {
@@ -150,6 +154,9 @@ namespace erronka1_talde5_tpv
                     var platoInfo = ObtenerNombreYPrecioPlato(plato.PlatoId);
                     string nombrePlato = platoInfo.Nombre;
                     decimal precioPlato = platoInfo.Precio;
+
+                    // Sumar al precio total
+                    precioTotal += precioPlato;
 
                     // Crear el texto del plato con el precio
                     Label lblPlato = new Label
@@ -193,12 +200,23 @@ namespace erronka1_talde5_tpv
 
                 panelContenedor.Controls.Add(cuadro);
 
-                // ---- Botón "Editar" debajo del cuadro ----
+                // ---- Mostrar el Precio Total debajo del cuadro ----
+                Label lblPrecioTotal = new Label
+                {
+                    Text = $"Precio Total: {precioTotal.ToString("C")}", // Formato de moneda
+                    Font = new Font("Arial", 12, FontStyle.Bold),
+                    ForeColor = Color.White,
+                    AutoSize = true,
+                    Location = new Point(cuadro.Left, cuadro.Bottom + 5) // Debajo del cuadro
+                };
+                panelContenedor.Controls.Add(lblPrecioTotal);
+
+                // ---- Botón "Editar" debajo del Precio Total ----
                 Button btnEditar = new Button
                 {
                     Text = $"Editar Comanda {comandasAgrupadas[i].EskaeraId}",
                     Size = new Size(anchoCuadro, 40),
-                    Location = new Point(cuadro.Left, cuadro.Bottom + 5), // Debajo del cuadro
+                    Location = new Point(cuadro.Left, lblPrecioTotal.Bottom + 5), // Debajo del Precio Total
                     BackColor = ColorTranslator.FromHtml("#E89E47"),
                     ForeColor = Color.Black,
                     Font = new Font("Arial", 10, FontStyle.Bold),
@@ -207,19 +225,19 @@ namespace erronka1_talde5_tpv
                 btnEditar.Click += BtnEditar_Click; // Asignar el evento de clic
                 panelContenedor.Controls.Add(btnEditar);
 
-                // ---- Botón "Terminado" debajo del botón "Editar" ----
-                Button btnTerminado = new Button
+                // ---- Botón "Pagar" debajo del botón "Editar" ----
+                Button btnPagar = new Button
                 {
-                    Text = $"Terminado Comanda {comandasAgrupadas[i].EskaeraId}",
+                    Text = $"Pagar Comanda {comandasAgrupadas[i].EskaeraId}",
                     Size = new Size(anchoCuadro, 40),
                     Location = new Point(cuadro.Left, btnEditar.Bottom + 5), // Debajo del botón "Editar"
-                    BackColor = ColorTranslator.FromHtml("#4CAF50"), // Verde para el botón "Terminado"
+                    BackColor = ColorTranslator.FromHtml("#4CAF50"), // Verde para el botón "Pagar"
                     ForeColor = Color.White,
                     Font = new Font("Arial", 10, FontStyle.Bold),
                     Tag = comandasAgrupadas[i].EskaeraId // Asignar el ID de la comanda al botón
                 };
-                btnTerminado.Click += BtnTerminado_Click; // Asignar el evento de clic
-                panelContenedor.Controls.Add(btnTerminado);
+                btnPagar.Click += BtnPagar_Click; // Asignar el evento de clic
+                panelContenedor.Controls.Add(btnPagar);
             }
 
             this.Controls.Add(panelContenedor);
@@ -238,6 +256,55 @@ namespace erronka1_talde5_tpv
             this.Controls.Add(btnVolver);
         }
 
+        // Evento para manejar el clic en el botón "Editar"
+        private void BtnEditar_Click(object sender, EventArgs e)
+        {
+            Button btnEditar = sender as Button;
+            if (btnEditar != null)
+            {
+                int eskaeraId = (int)btnEditar.Tag; // Obtener el ID de la comanda desde el Tag
+                MessageBox.Show($"Editar Comanda ID: {eskaeraId}", "Editar Comanda", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Aquí puedes implementar la lógica para editar la comanda
+                // Por ejemplo, abrir un formulario de edición con el ID de la comanda
+            }
+        }
+
+        // Evento para manejar el clic en el botón "Pagar"
+        // Evento para manejar el clic en el botón "Pagar"
+        private void BtnPagar_Click(object sender, EventArgs e)
+        {
+            Button btnPagar = sender as Button;
+            if (btnPagar != null)
+            {
+                int eskaeraId = (int)btnPagar.Tag; // Obtener el ID de la comanda desde el Tag
+
+                // Mostrar un MessageBox con opciones de pago
+                var result = MessageBox.Show(
+                    "Seleccione el método de pago:\n\n¿Desea pagar en efectivo?",
+                    "Método de Pago",
+                    MessageBoxButtons.YesNo, // Botones Sí (Efectivo) y No (Tarjeta)
+                    MessageBoxIcon.Question,
+                    MessageBoxDefaultButton.Button1
+                );
+
+                // Guardar la opción seleccionada
+                if (result == DialogResult.Yes)
+                {
+                    metodoPagoSeleccionado = "Efectivo";
+                }
+                else if (result == DialogResult.No)
+                {
+                    metodoPagoSeleccionado = "Tarjeta";
+                }
+
+                // Mostrar un mensaje con la opción seleccionada (esto es temporal)
+                MessageBox.Show($"Método de pago seleccionado para Comanda {eskaeraId}: {metodoPagoSeleccionado}", "Pago", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Aquí puedes guardar el método de pago en la base de datos o en una variable para usarlo más tarde
+                // Por ejemplo, al generar el PDF.
+            }
+        }
         // Método para obtener el nombre y el precio de un plato
         private (string Nombre, decimal Precio) ObtenerNombreYPrecioPlato(int plateraId)
         {
@@ -255,37 +322,14 @@ namespace erronka1_talde5_tpv
             }
         }
 
-        // Evento para manejar el clic en el botón "Editar"
-        private void BtnEditar_Click(object sender, EventArgs e)
-        {
-            Button btnEditar = sender as Button;
-            if (btnEditar != null)
-            {
-                int eskaeraId = (int)btnEditar.Tag; // Obtener el ID de la comanda desde el Tag
-                MessageBox.Show($"Editar Comanda ID: {eskaeraId}", "Editar Comanda", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Aquí puedes implementar la lógica para editar la comanda
-                // Por ejemplo, abrir un formulario de edición con el ID de la comanda
-            }
-        }
-
-        // Evento para manejar el clic en el botón "Terminado"
-        private void BtnTerminado_Click(object sender, EventArgs e)
-        {
-            Button btnTerminado = sender as Button;
-            if (btnTerminado != null)
-            {
-                int eskaeraId = (int)btnTerminado.Tag; // Obtener el ID de la comanda desde el Tag
-                MessageBox.Show($"Comanda ID: {eskaeraId} marcada como Terminada", "Comanda Terminada", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Aquí puedes implementar la lógica para marcar la comanda como terminada
-                // Por ejemplo, actualizar el estado de la comanda en la base de datos
-            }
-        }
-
         private void BtnVolver_Click(object sender, EventArgs e)
         {
-            this.Close(); // Cierra la ventana actual
+            // Cerrar la ventana actual (Eskaera.cs)
+            this.Close();
+
+            // Abrir la ventana Comanda.cs
+            Comanda comandaForm = new Comanda();
+            comandaForm.Show();
         }
     }
 }

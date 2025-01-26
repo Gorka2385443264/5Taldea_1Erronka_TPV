@@ -15,7 +15,6 @@ namespace erronka1_talde5_tpv
 
         private NHibernate.Cfg.Configuration miConfiguracion;
         private ISessionFactory mySessionFactory;
-        private ISession mySession;
 
         private void Login_Load(object sender, EventArgs e)
         {
@@ -55,50 +54,48 @@ namespace erronka1_talde5_tpv
             miConfiguracion = new NHibernate.Cfg.Configuration();
             miConfiguracion.Configure();
             mySessionFactory = miConfiguracion.BuildSessionFactory();
-            mySession = mySessionFactory.OpenSession();
 
-            using (var transaccion = mySession.BeginTransaction())
+            using (var mySession = mySessionFactory.OpenSession())
             {
-                try
+                using (var transaccion = mySession.BeginTransaction())
                 {
-                    string hql = @"FROM Langilea WHERE Email = :emailParam AND Pasahitza = :pasahitzaParam";
-
-                    var query = mySession.CreateQuery(hql);
-                    query.SetParameter("emailParam", emailText.Text);
-                    query.SetParameter("pasahitzaParam", pasahitzaText.Text);
-
-                    var resultado = query.UniqueResult<erronka1_talde5_tpv.Langilea>();
-
-                    if (resultado != null)
+                    try
                     {
-                        mySession.Evict(resultado);
+                        // Consulta para obtener el usuario por email y contraseña
+                        string hql = @"FROM Langilea WHERE Email = :emailParam AND Pasahitza = :pasahitzaParam";
 
-                        Comanda comandaForm = new Comanda
+                        var query = mySession.CreateQuery(hql);
+                        query.SetParameter("emailParam", emailText.Text);
+                        query.SetParameter("pasahitzaParam", pasahitzaText.Text);
+
+                        // Obtener el resultado de la consulta
+                        var resultado = query.UniqueResult<Langilea>();
+
+                        if (resultado != null)
                         {
-                            NombreUsuario = resultado.Izena
-                        };
-                        comandaForm.Show();
-                        this.Hide();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Credenciales incorrectas. ¡Adiós!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                            // Pasar el nombre del usuario a la pantalla Comanda
+                            Comanda comandaForm = new Comanda
+                            {
+                                NombreUsuario = resultado.Izena
+                            };
+                            comandaForm.Show();
+                            this.Hide();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Credenciales incorrectas. ¡Adiós!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
 
-                    transaccion.Commit();
-                }
-                catch (Exception ex)
-                {
-                    transaccion.Rollback();
-                    MessageBox.Show($"Ocurrió un error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    mySession.Close();
+                        transaccion.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaccion.Rollback();
+                        MessageBox.Show($"Ocurrió un error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }
-
         private void CenterControls()
         {
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -118,6 +115,5 @@ namespace erronka1_talde5_tpv
             logInButton.Left = (this.ClientSize.Width - logInButton.Width) / 2;
             logInButton.Top = pasahitzaText.Top + pasahitzaText.Height + 20;
         }
-
     }
 }
