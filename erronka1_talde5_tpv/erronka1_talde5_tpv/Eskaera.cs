@@ -131,7 +131,6 @@ namespace erronka1_talde5_tpv
 
         private void BtnVolver_Click(object sender, EventArgs e)
         {
-            // Lógica para el botón Volver
             this.Close(); // Esto cierra la ventana actual
         }
 
