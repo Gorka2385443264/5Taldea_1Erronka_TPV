@@ -142,6 +142,8 @@
       <DependentUpon>Eskaera.cs</DependentUpon>
     </Compile>
     <Compile Include="Eskaera2.cs" />
+    <Compile Include="EskaeraDetalle.cs" />
+    <Compile Include="EskaeraEntity.cs" />
     <Compile Include="EskaeraPagada.cs" />
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
@@ -210,6 +212,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Platera.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="EskaeraEntity.hbm.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

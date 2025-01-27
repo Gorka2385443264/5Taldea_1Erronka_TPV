@@ -290,31 +290,38 @@ namespace erronka1_talde5_tpv
                 );
 
                 // Guardar la opción seleccionada
-                if (result == DialogResult.Yes)
+                string metodoPago = (result == DialogResult.Yes) ? "Efectivo" : "Tarjeta";
+
+                // Actualizar la eskaera en la base de datos
+                using (var session = mySessionFactory.OpenSession())
                 {
-                    metodoPagoSeleccionado = "Efectivo";
+                    using (var transaction = session.BeginTransaction())
+                    {
+                        try
+                        {
+                            // Obtener la eskaera por su ID
+                            var eskaera = session.Get<EskaeraEntity>(eskaeraId);
+                            if (eskaera != null)
+                            {
+                                // Actualizar el campo Ordainduta
+                                eskaera.Ordainduta = 1; // Marcar como pagada
+
+                                // Guardar los cambios
+                                session.Update(eskaera);
+                                transaction.Commit();
+
+                                MessageBox.Show($"Eskaera {eskaeraId} pagada con {metodoPago}.", "Pago", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Error al actualizar la eskaera: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            transaction.Rollback();
+                        }
+                    }
                 }
-                else if (result == DialogResult.No)
-                {
-                    metodoPagoSeleccionado = "Tarjeta";
-                }
-
-                // Calcular el precio total de la eskaera
-                decimal precioTotal = CalcularPrecioTotal(eskaeraId);
-
-                // Guardar la eskaera pagada en la lista estática
-                EskaerasPagadas.Add(new EskaeraPagada
-                {
-                    EskaeraId = eskaeraId,
-                    PrecioTotal = precioTotal,
-                    MetodoPago = metodoPagoSeleccionado,
-                    FechaPago = DateTime.Now
-                });
-
-                MessageBox.Show($"Eskaera {eskaeraId} pagada con {metodoPagoSeleccionado}.", "Pago", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-
         private decimal CalcularPrecioTotal(int eskaeraId)
         {
             using (var session = mySessionFactory.OpenSession())
