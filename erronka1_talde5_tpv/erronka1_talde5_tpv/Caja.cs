@@ -315,19 +315,20 @@ namespace erronka1_talde5_tpv
                     html.AppendLine("</head>");
                     html.AppendLine("<body>");
 
-                    // Cabecera con logo
+                    // Cabecera con logo y fecha/hora
+                    string fechaHora = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
                     html.AppendLine($@"<div class='header'>
-                                <img src='{logoUri}' class='logo'/>
-                                <h1>Comanda #{eskeeraId}</h1>
-                                <div class='info-empresa'>
-                                    <p>Saboreame Restaurante</p>
-                                    <p>C/Gran Vía, 12 - 48001 Bilbao</p>
-                                    <p>Tel: 944 123 456 | CIF: B12345678</p>
-                                </div>
-                              </div>");
+                        <img src='{logoUri}' class='logo'/>
+                        <h1>{fechaHora}</h1>
+                        <div class='info-empresa'>
+                            <p>Saboreame Restaurante</p>
+                            <p>C/Gran Vía, 12 - 48001 Bilbao</p>
+                            <p>Tel: 944 123 456 | CIF: B12345678</p>
+                        </div>
+                      </div>");
 
                     html.AppendLine("<table>");
-                    html.AppendLine("<tr><th>Plato</th><th>Precio</th><th>Notas</th><th>Hora</th></tr>");
+                    html.AppendLine("<tr><th>Plato</th><th>Precio</th></tr>");
 
                     decimal total = 0;
                     foreach (var plato in platos)
@@ -339,8 +340,6 @@ namespace erronka1_talde5_tpv
                         html.AppendLine("<tr>");
                         html.AppendLine($"<td>{nombre}</td>");
                         html.AppendLine($"<td>{precio:C}</td>");
-                        html.AppendLine($"<td>{(string.IsNullOrEmpty(plato.NotaGehigarriak) ? "-" : plato.NotaGehigarriak)}</td>");
-                        html.AppendLine($"<td>{plato.EskaeraOrdua:HH:mm}</td>");
                         html.AppendLine("</tr>");
                     }
 
