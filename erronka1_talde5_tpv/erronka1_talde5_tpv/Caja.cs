@@ -266,86 +266,117 @@ namespace erronka1_talde5_tpv
 
 
         private void BtnCrearPDF_Click(object sender, EventArgs e)
-    {
-        Button btn = (Button)sender;
-        int eskeeraId = (int)btn.Tag;
-
-        try
         {
-            using (var session = mySessionFactory.OpenSession())
+            Button btn = (Button)sender;
+            int eskeeraId = (int)btn.Tag;
+
+            try
             {
-                // 1. Obtener datos de la comanda
-                var eskaera = session.Get<EskaeraEntity>(eskeeraId);
-                var platos = session.CreateQuery("FROM Eskaera2 WHERE EskaeraId = :id")
-                                   .SetParameter("id", eskeeraId)
-                                   .List<Eskaera2>();
+                // 1. Ruta del logo
+                string logoPath = @"C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\Resources\saboreame.png";
 
-                // 2. Construir HTML mejor formateado
-                StringBuilder html = new StringBuilder();
-                html.AppendLine("<!DOCTYPE html>");
-                html.AppendLine("<html>");
-                html.AppendLine("<head>");
-                html.AppendLine("<meta charset='UTF-8'>");
-                html.AppendLine("<style>");
-                html.AppendLine("body { font-family: Arial, sans-serif; margin: 20px; }");
-                html.AppendLine("h1 { color: #BA450D; border-bottom: 2px solid #ddd; padding-bottom: 10px; }");
-                html.AppendLine("table { width: 100%; border-collapse: collapse; margin-top: 20px; }");
-                html.AppendLine("th { background-color: #f5f5f5; text-align: left; }");
-                html.AppendLine("th, td { padding: 12px; border-bottom: 1px solid #ddd; }");
-                html.AppendLine(".total { font-weight: bold; margin-top: 20px; font-size: 1.2em; }");
-                html.AppendLine("</style>");
-                html.AppendLine("</head>");
-                html.AppendLine("<body>");
-                html.AppendLine($"<h1>Comanda #{eskeeraId}</h1>");
-                html.AppendLine($"<p><strong>Fecha:</strong> {DateTime.Now:dd/MM/yyyy HH:mm}</p>");
-                html.AppendLine("<table>");
-                html.AppendLine("<tr><th>Plato</th><th>Precio</th><th>Notas</th><th>Hora</th></tr>");
-
-                decimal total = 0;
-                foreach (var plato in platos)
+                // Verificar si existe el logo
+                if (!File.Exists(logoPath))
                 {
-                    string nombre = ObtenerNombrePlato(session, plato.PlateraId);
-                    int precio = ObtenerPrecioPlato(session, plato.PlateraId);
-                    total += precio;
-
-                    html.AppendLine("<tr>");
-                    html.AppendLine($"<td>{nombre}</td>");
-                    html.AppendLine($"<td>{precio:C}</td>");
-                    html.AppendLine($"<td>{plato.NotaGehigarriak ?? "-"}</td>");
-                    html.AppendLine($"<td>{plato.EskaeraOrdua:HH:mm}</td>");
-                    html.AppendLine("</tr>");
+                    MessageBox.Show("El archivo del logo no se encontró en la ruta especificada",
+                                  "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
 
-                html.AppendLine("</table>");
-                html.AppendLine($"<p class='total'>Total: {total:C}</p>");
-                html.AppendLine("</body></html>");
+                // Convertir ruta a URI válido
+                string logoUri = new Uri(logoPath).AbsoluteUri;
+                logoUri = logoUri.Replace(" ", "%20");
 
-                // 3. Configuración del PDF
-                HtmlToPdf converter = new HtmlToPdf();
-                converter.Options.PdfPageSize = PdfPageSize.A4;
-                converter.Options.PdfPageOrientation = PdfPageOrientation.Portrait;
+                using (var session = mySessionFactory.OpenSession())
+                {
+                    // 2. Obtener datos de la comanda
+                    var eskaera = session.Get<EskaeraEntity>(eskeeraId);
+                    var platos = session.CreateQuery("FROM Eskaera2 WHERE EskaeraId = :id")
+                                       .SetParameter("id", eskeeraId)
+                                       .List<Eskaera2>();
 
-                PdfDocument doc = converter.ConvertHtmlString(html.ToString());
+                    // 3. Construir HTML
+                    StringBuilder html = new StringBuilder();
+                    html.AppendLine("<!DOCTYPE html>");
+                    html.AppendLine("<html>");
+                    html.AppendLine("<head>");
+                    html.AppendLine("<meta charset='UTF-8'>");
+                    html.AppendLine("<style>");
+                    html.AppendLine("body { font-family: Arial, sans-serif; margin: 25px; }");
+                    html.AppendLine(".header { text-align: center; margin-bottom: 25px; border-bottom: 2px solid #BA450D; padding-bottom: 15px; }");
+                    html.AppendLine(".logo { max-width: 200px; height: auto; margin-bottom: 10px; }");
+                    html.AppendLine("h1 { color: #BA450D; font-size: 24px; margin: 15px 0; }");
+                    html.AppendLine("table { width: 100%; border-collapse: collapse; margin-top: 20px; }");
+                    html.AppendLine("th { background-color: #f8f9fa; color: #091725; padding: 12px; text-align: left; }");
+                    html.AppendLine("td { padding: 10px; border-bottom: 1px solid #eee; }");
+                    html.AppendLine(".total { font-size: 18px; color: #091725; margin-top: 25px; font-weight: bold; }");
+                    html.AppendLine(".info-empresa { color: #666; font-size: 14px; margin-top: 5px; }");
+                    html.AppendLine("</style>");
+                    html.AppendLine("</head>");
+                    html.AppendLine("<body>");
 
-                // Guardar PDF
-                string documentosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                string pdfPath = Path.Combine(documentosPath, $"Comanda_{eskeeraId}_{DateTime.Now:yyyyMMddHHmmss}.pdf");
+                    // Cabecera con logo
+                    html.AppendLine($@"<div class='header'>
+                                <img src='{logoUri}' class='logo'/>
+                                <h1>Comanda #{eskeeraId}</h1>
+                                <div class='info-empresa'>
+                                    <p>Saboreame Restaurante</p>
+                                    <p>C/Gran Vía, 12 - 48001 Bilbao</p>
+                                    <p>Tel: 944 123 456 | CIF: B12345678</p>
+                                </div>
+                              </div>");
 
-                doc.Save(pdfPath);
-                doc.Close();
+                    html.AppendLine("<table>");
+                    html.AppendLine("<tr><th>Plato</th><th>Precio</th><th>Notas</th><th>Hora</th></tr>");
 
-                MessageBox.Show($"PDF generado en:\n{pdfPath}", "Éxito",
-                              MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    decimal total = 0;
+                    foreach (var plato in platos)
+                    {
+                        string nombre = ObtenerNombrePlato(session, plato.PlateraId);
+                        int precio = ObtenerPrecioPlato(session, plato.PlateraId);
+                        total += precio;
+
+                        html.AppendLine("<tr>");
+                        html.AppendLine($"<td>{nombre}</td>");
+                        html.AppendLine($"<td>{precio:C}</td>");
+                        html.AppendLine($"<td>{(string.IsNullOrEmpty(plato.NotaGehigarriak) ? "-" : plato.NotaGehigarriak)}</td>");
+                        html.AppendLine($"<td>{plato.EskaeraOrdua:HH:mm}</td>");
+                        html.AppendLine("</tr>");
+                    }
+
+                    html.AppendLine("</table>");
+                    html.AppendLine($"<p class='total'>Total: {total:C}</p>");
+                    html.AppendLine("</body></html>");
+
+                    // 4. Configuración PDF
+                    HtmlToPdf converter = new HtmlToPdf();
+                    converter.Options.PdfPageSize = PdfPageSize.A4;
+                    converter.Options.PdfPageOrientation = PdfPageOrientation.Portrait;
+                    converter.Options.WebPageWidth = 1200;
+
+                    // 5. Generar PDF
+                    PdfDocument doc = converter.ConvertHtmlString(html.ToString());
+
+                    // 6. Guardar PDF
+                    string documentosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                    string pdfFileName = $"Comanda_{eskeeraId}_{DateTime.Now:yyyyMMddHHmmss}.pdf";
+                    string pdfPath = Path.Combine(documentosPath, pdfFileName);
+
+                    doc.Save(pdfPath);
+                    doc.Close();
+
+                    // 7. Mostrar confirmación
+                    MessageBox.Show($"PDF generado con éxito:\n{pdfPath}",
+                                  "PDF Creado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al generar el PDF: {ex.Message}\n\nDetalles técnicos:\n{ex.StackTrace}",
+                              "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Error al generar PDF: {ex.Message}", "Error",
-                          MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-    } // Faltaba esta llave de cierre
-
-    private void BackButton_Click(object sender, EventArgs e)
+        private void BackButton_Click(object sender, EventArgs e)
     {
         Comanda comandaForm = new Comanda { NombreUsuario = NombreUsuario };
         comandaForm.Show();
