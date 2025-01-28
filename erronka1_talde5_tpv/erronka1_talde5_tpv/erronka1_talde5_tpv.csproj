@@ -144,6 +144,7 @@
     <Compile Include="Eskaera2.cs" />
     <Compile Include="EskaeraDetalle.cs" />
     <Compile Include="EskaeraEntity.cs" />
+    <Compile Include="EskaeraGrupo.cs" />
     <Compile Include="EskaeraPagada.cs" />
     <Compile Include="Login.cs">
       <SubType>Form</SubType>

@@ -27,14 +27,14 @@ namespace erronka1_talde5_tpv
             try
             {
                 var configuration = new NHibernate.Cfg.Configuration();
-                configuration.Configure(); // Lee el app.config (incluye <mapping assembly>)
+                configuration.Configure(); // Configuración desde app.config
 
                 mySessionFactory = configuration.BuildSessionFactory();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al configurar NHibernate: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw; // Lanzar la excepción para detener la ejecución
+                throw;
             }
         }
 
@@ -47,32 +47,41 @@ namespace erronka1_talde5_tpv
                 MessageBox.Show("NHibernate no se configuró correctamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
+            welcomeLabel.Text = $"¡Hola, {NombreUsuario}!";
+            AjustarPosicionWelcomeLabel();
             using (var session = mySessionFactory.OpenSession())
             {
                 using (var transaction = session.BeginTransaction())
                 {
                     try
                     {
-                        // Obtener todas las comandas (solo lectura)
-                        var comandas = session.CreateQuery("FROM Eskaera2")
+                        // Obtener todas las comandas no pagadas (Ordainduta = 1)
+                        var comandas = session.CreateQuery("FROM EskaeraEntity WHERE Ordainduta = 0")
                                               .SetReadOnly(true)
-                                              .List<Eskaera2>();
+                                              .List<EskaeraEntity>();
 
-                        // Agrupar comandas por eskaera_id
-                        var comandasAgrupadas = comandas
-                            .GroupBy(c => c.EskaeraId)
-                            .Select(g => (
-                                EskaeraId: g.Key,
-                                Platos: g.Select(c => (
-                                    PlatoId: c.PlateraId,
-                                    Notas: c.NotaGehigarriak,
-                                    Hora: c.EskaeraOrdua
-                                )).ToList()
+                        var comandasDetalles = new List<(int EskaeraId, List<(int PlatoId, string Notas, DateTime Hora, int Precio, string NombrePlato)>)>();
+
+                        foreach (var comanda in comandas)
+                        {
+                            var platos = session.CreateQuery("FROM Eskaera2 WHERE EskaeraId = :eskaeraId")
+                                                .SetParameter("eskaeraId", comanda.Id)
+                                                .SetReadOnly(true)
+                                                .List<Eskaera2>();
+
+                            var platosDetalles = platos.Select(p => (
+                                PlatoId: p.PlateraId,
+                                Notas: p.NotaGehigarriak,
+                                Hora: p.EskaeraOrdua,
+                                Precio: ObtenerPrecioPlato(session, p.PlateraId),
+                                NombrePlato: ObtenerNombrePlato(session, p.PlateraId)
                             )).ToList();
 
+                            comandasDetalles.Add((EskaeraId: comanda.Id, Platos: platosDetalles));
+                        }
+
                         // Mostrar los datos agrupados
-                        DisplayComandasAgrupadas(comandasAgrupadas);
+                        DisplayComandasAgrupadas(comandasDetalles);
                         transaction.Commit();
                     }
                     catch (Exception ex)
@@ -84,7 +93,24 @@ namespace erronka1_talde5_tpv
             }
         }
 
-        private void DisplayComandasAgrupadas(List<(int EskaeraId, List<(int PlatoId, string Notas, DateTime Hora)> Platos)> comandasAgrupadas)
+        private int ObtenerPrecioPlato(ISession session, int platoId)
+        {
+            var plato = session.Get<Platera>(platoId);
+            return plato?.Prezioa ?? 0;
+        }
+
+        private string ObtenerNombrePlato(ISession session, int platoId)
+        {
+            if (session == null) return "Plato no encontrado";
+
+            // Obtener el plato desde la base de datos
+            var plato = session.Get<Platera>(platoId);
+
+            // Verificar si el plato existe
+            return plato?.Izena ?? "Plato no encontrado";
+        }
+
+        private void DisplayComandasAgrupadas(List<(int EskaeraId, List<(int PlatoId, string Notas, DateTime Hora, int Precio, string NombrePlato)> Platos)> comandasAgrupadas)
         {
             Panel panelContenedor = new Panel
             {
@@ -93,11 +119,10 @@ namespace erronka1_talde5_tpv
                 BackColor = ColorTranslator.FromHtml("#091725")
             };
 
-            // Configuración del layout
-            int anchoCuadro = 350;  // Ancho fijo del cuadro
-            int altoCuadro = 200;   // Altura fija del cuadro
-            int separacion = 15;    // Espacio entre cuadros
-            int maxColumnas = 3;    // Máximo de columnas por fila
+            int anchoCuadro = 350;
+            int altoCuadro = 200;
+            int separacion = 15;
+            int maxColumnas = 3;
 
             int margenIzquierdo = (this.ClientSize.Width - (maxColumnas * (anchoCuadro + separacion))) / 2;
             margenIzquierdo = Math.Max(margenIzquierdo, 15);
@@ -107,18 +132,16 @@ namespace erronka1_talde5_tpv
                 int fila = i / maxColumnas;
                 int columna = i % maxColumnas;
 
-                // Panel principal del cuadro
                 Panel cuadro = new Panel
                 {
                     Width = anchoCuadro,
                     Height = altoCuadro,
                     Left = margenIzquierdo + columna * (anchoCuadro + separacion),
-                    Top = 15 + fila * (altoCuadro + separacion + 140), // +140 para los botones y el precio total
+Top = welcomeLabel.Bottom + separacion + fila * (altoCuadro + separacion + 140),
                     BackColor = ColorTranslator.FromHtml("#BA450D"),
                     Padding = new Padding(10)
                 };
 
-                // ---- Comanda ID (Grande, arriba a la izquierda) ----
                 Label lblComandaId = new Label
                 {
                     Text = $"Comanda ID: {comandasAgrupadas[i].EskaeraId}",
@@ -129,7 +152,6 @@ namespace erronka1_talde5_tpv
                     TextAlign = ContentAlignment.MiddleLeft
                 };
 
-                // ---- Espacio entre Comanda ID y Plato ----
                 Panel espacio = new Panel
                 {
                     Dock = DockStyle.Top,
@@ -137,7 +159,6 @@ namespace erronka1_talde5_tpv
                     BackColor = Color.Transparent
                 };
 
-                // ---- Contenedor para los platos ----
                 Panel panelPlatos = new Panel
                 {
                     Dock = DockStyle.Fill,
@@ -145,228 +166,64 @@ namespace erronka1_talde5_tpv
                     BackColor = Color.Transparent
                 };
 
-                // ---- Calcular el precio total de la comanda ----
                 decimal precioTotal = 0;
 
-                // ---- Agregar cada plato y sus notas ----
                 foreach (var plato in comandasAgrupadas[i].Platos)
                 {
-                    // Obtener el nombre y el precio del plato
-                    var platoInfo = ObtenerNombreYPrecioPlato(plato.PlatoId);
-                    string nombrePlato = platoInfo.Nombre;
-                    decimal precioPlato = platoInfo.Precio;
+                    precioTotal += plato.Precio;
 
-                    // Sumar al precio total
-                    precioTotal += precioPlato;
-
-                    // Crear el texto del plato con el precio
                     Label lblPlato = new Label
                     {
-                        Text = $"PLATO: {nombrePlato}\nNOTAS: {plato.Notas ?? "Ninguna"}\nHORA: {plato.Hora.ToString("HH:mm")}",
+                        Text = $"PLATO: {plato.NombrePlato}\nNOTAS: {plato.Notas ?? "Ninguna"}\nHORA: {plato.Hora:HH:mm}",
                         Font = new Font("Arial", 10),
                         ForeColor = Color.White,
                         Dock = DockStyle.Top,
-                        AutoSize = true,
-                        Margin = new Padding(0, 0, 0, 10)  // Margen inferior entre platos
+                        AutoSize = true
                     };
 
-                    // Crear el label para el precio (más pequeño y menos llamativo)
                     Label lblPrecio = new Label
                     {
-                        Text = $"Precio: {precioPlato.ToString("C")}", // Formato de moneda
+                        Text = $"Precio: {plato.Precio.ToString("C")}",
                         Font = new Font("Arial", 8, FontStyle.Italic),
-                        ForeColor = Color.LightGray, // Color gris claro
+                        ForeColor = Color.LightGray,
                         Dock = DockStyle.Top,
-                        AutoSize = true,
-                        Margin = new Padding(0, 0, 0, 5)  // Margen inferior pequeño
+                        AutoSize = true
                     };
 
                     panelPlatos.Controls.Add(lblPlato);
                     panelPlatos.Controls.Add(lblPrecio);
-
-                    // Agregar un separador entre platos
-                    Panel separador = new Panel
-                    {
-                        Height = 1,
-                        Dock = DockStyle.Top,
-                        BackColor = Color.White
-                    };
-                    panelPlatos.Controls.Add(separador);
                 }
 
-                // Añadir controles al cuadro principal
-                cuadro.Controls.Add(panelPlatos);  // Platos y notas
-                cuadro.Controls.Add(espacio);      // Espacio entre Comanda ID y Plato
-                cuadro.Controls.Add(lblComandaId); // Comanda ID en la parte superior
+                cuadro.Controls.Add(panelPlatos);
+                cuadro.Controls.Add(espacio);
+                cuadro.Controls.Add(lblComandaId);
 
                 panelContenedor.Controls.Add(cuadro);
-
-                // ---- Mostrar el Precio Total debajo del cuadro ----
-                Label lblPrecioTotal = new Label
-                {
-                    Text = $"Precio Total: {precioTotal.ToString("C")}", // Formato de moneda
-                    Font = new Font("Arial", 12, FontStyle.Bold),
-                    ForeColor = Color.White,
-                    AutoSize = true,
-                    Location = new Point(cuadro.Left, cuadro.Bottom + 5) // Debajo del cuadro
-                };
-                panelContenedor.Controls.Add(lblPrecioTotal);
-
-                // ---- Botón "Editar" debajo del Precio Total ----
-                Button btnEditar = new Button
-                {
-                    Text = $"Editar Comanda {comandasAgrupadas[i].EskaeraId}",
-                    Size = new Size(anchoCuadro, 40),
-                    Location = new Point(cuadro.Left, lblPrecioTotal.Bottom + 5), // Debajo del Precio Total
-                    BackColor = ColorTranslator.FromHtml("#E89E47"),
-                    ForeColor = Color.Black,
-                    Font = new Font("Arial", 10, FontStyle.Bold),
-                    Tag = comandasAgrupadas[i].EskaeraId // Asignar el ID de la comanda al botón
-                };
-                btnEditar.Click += BtnEditar_Click; // Asignar el evento de clic
-                panelContenedor.Controls.Add(btnEditar);
-
-                // ---- Botón "Pagar" debajo del botón "Editar" ----
-                Button btnPagar = new Button
-                {
-                    Text = $"Pagar Comanda {comandasAgrupadas[i].EskaeraId}",
-                    Size = new Size(anchoCuadro, 40),
-                    Location = new Point(cuadro.Left, btnEditar.Bottom + 5), // Debajo del botón "Editar"
-                    BackColor = ColorTranslator.FromHtml("#4CAF50"), // Verde para el botón "Pagar"
-                    ForeColor = Color.White,
-                    Font = new Font("Arial", 10, FontStyle.Bold),
-                    Tag = comandasAgrupadas[i].EskaeraId // Asignar el ID de la comanda al botón
-                };
-                btnPagar.Click += BtnPagar_Click; // Asignar el evento de clic
-                panelContenedor.Controls.Add(btnPagar);
             }
 
             this.Controls.Add(panelContenedor);
-
-            // Botón de volver
-            Button btnVolver = new Button
-            {
-                Text = "Volver",
-                Size = new Size(120, 40),
-                Location = new Point(20, this.ClientSize.Height - 70),
-                BackColor = ColorTranslator.FromHtml("#E89E47"),
-                ForeColor = Color.Black,
-                Font = new Font("Arial", 10, FontStyle.Bold)
-            };
-            btnVolver.Click += BtnVolver_Click;
-            this.Controls.Add(btnVolver);
         }
 
-        // Evento para manejar el clic en el botón "Editar"
-        private void BtnEditar_Click(object sender, EventArgs e)
-        {
-            Button btnEditar = sender as Button;
-            if (btnEditar != null)
-            {
-                int eskaeraId = (int)btnEditar.Tag; // Obtener el ID de la comanda desde el Tag
-                MessageBox.Show($"Editar Comanda ID: {eskaeraId}", "Editar Comanda", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Aquí puedes implementar la lógica para editar la comanda
-                // Por ejemplo, abrir un formulario de edición con el ID de la comanda
-            }
-        }
-
-        // Evento para manejar el clic en el botón "Pagar"
-        // Evento para manejar el clic en el botón "Pagar"
         private void BtnPagar_Click(object sender, EventArgs e)
         {
-            Button btnPagar = sender as Button;
-            if (btnPagar != null)
-            {
-                int eskaeraId = (int)btnPagar.Tag;
-
-                // Mostrar un MessageBox con opciones de pago
-                var result = MessageBox.Show(
-                    "Seleccione el método de pago:\n\n¿Desea pagar en efectivo?",
-                    "Método de Pago",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question,
-                    MessageBoxDefaultButton.Button1
-                );
-
-                // Guardar la opción seleccionada
-                string metodoPago = (result == DialogResult.Yes) ? "Efectivo" : "Tarjeta";
-
-                // Actualizar la eskaera en la base de datos
-                using (var session = mySessionFactory.OpenSession())
-                {
-                    using (var transaction = session.BeginTransaction())
-                    {
-                        try
-                        {
-                            // Obtener la eskaera por su ID
-                            var eskaera = session.Get<EskaeraEntity>(eskaeraId);
-                            if (eskaera != null)
-                            {
-                                // Actualizar el campo Ordainduta
-                                eskaera.Ordainduta = 1; // Marcar como pagada
-
-                                // Guardar los cambios
-                                session.Update(eskaera);
-                                transaction.Commit();
-
-                                MessageBox.Show($"Eskaera {eskaeraId} pagada con {metodoPago}.", "Pago", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show($"Error al actualizar la eskaera: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            transaction.Rollback();
-                        }
-                    }
-                }
-            }
-        }
-        private decimal CalcularPrecioTotal(int eskaeraId)
-        {
-            using (var session = mySessionFactory.OpenSession())
-            {
-                var comandas = session.CreateQuery("FROM Eskaera2 WHERE EskaeraId = :eskaeraId")
-                                      .SetParameter("eskaeraId", eskaeraId)
-                                      .List<Eskaera2>();
-
-                decimal precioTotal = 0;
-                foreach (var comanda in comandas)
-                {
-                    var plato = ObtenerNombreYPrecioPlato(comanda.PlateraId);
-                    precioTotal += plato.Precio;
-                }
-
-                return precioTotal;
-            }
-        }        // Método para obtener el nombre y el precio de un plato
-        private (string Nombre, decimal Precio) ObtenerNombreYPrecioPlato(int plateraId)
-        {
-            try
-            {
-                using (var session = mySessionFactory.OpenSession())
-                {
-                    var plato = session.Get<Platera>(plateraId);
-                    return (plato?.Izena ?? "Plato desconocido", plato?.Prezioa ?? 0); // Devuelve nombre y precio
-                }
-            }
-            catch
-            {
-                return ("Error al cargar el nombre", 0); // Devuelve un valor predeterminado en caso de error
-            }
+            Button btn = (Button)sender;
+            int eskeeraId = (int)btn.Tag;
+            MessageBox.Show($"Pagar comanda {eskeeraId}");
+            // Actualiza el estado a pagado (Ordainduta = 1) en la base de datos
         }
 
-        private void BtnVolver_Click(object sender, EventArgs e)
+        private void BtnEditar_Click(object sender, EventArgs e)
         {
-            // Cerrar la ventana actual (Eskaera.cs)
-            this.Close();
+            Button btn = (Button)sender;
+            int eskeeraId = (int)btn.Tag;
+            MessageBox.Show($"Editar comanda {eskeeraId}");
+        }
 
-            // Abrir la ventana Comanda.cs y pasar el nombre de usuario
-            Comanda comandaForm = new Comanda
-            {
-                NombreUsuario = this.NombreUsuario // Pasar el nombre de usuario actual
-            };
+        private void BackButton_Click(object sender, EventArgs e)
+        {
+            Comanda comandaForm = new Comanda { NombreUsuario = NombreUsuario };
             comandaForm.Show();
+            this.Hide();
         }
     }
 }

@@ -53,5 +53,12 @@
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+        private void AjustarPosicionWelcomeLabel()
+        {
+            this.welcomeLabel.Location = new System.Drawing.Point(
+                (this.ClientSize.Width - this.welcomeLabel.Width) / 2, // Centrado horizontal
+                10 // Alineado en la parte superior con un pequeño margen
+            );
+        }
     }
 }
