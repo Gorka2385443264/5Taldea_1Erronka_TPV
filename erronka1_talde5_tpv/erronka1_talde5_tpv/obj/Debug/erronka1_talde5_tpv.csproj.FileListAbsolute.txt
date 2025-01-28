@@ -236,3 +236,6 @@ C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\D
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.exe
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.pdb
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.Caja.resources
+C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Select.HtmlToPdf.dll
+C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Select.HtmlToPdf.xml
+C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Select.Html.dep

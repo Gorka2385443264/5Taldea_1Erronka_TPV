@@ -1,9 +1,13 @@
 ﻿using NHibernate;
+using SelectPdf;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
+using SelectPdf; 
 
 namespace erronka1_talde5_tpv
 {
@@ -259,19 +263,93 @@ namespace erronka1_talde5_tpv
             this.Controls.Add(backButton);
         }
 
-        private void BtnCrearPDF_Click(object sender, EventArgs e)
-        {
-            Button btn = (Button)sender;
-            int eskeeraId = (int)btn.Tag;  // Obtener el ID de la comanda desde el Tag
-            MessageBox.Show($"Crear PDF para la comanda {eskeeraId}");
-            // Aquí puedes añadir la lógica para generar el PDF de la comanda
-        }
 
-        private void BackButton_Click(object sender, EventArgs e)
+
+        private void BtnCrearPDF_Click(object sender, EventArgs e)
+    {
+        Button btn = (Button)sender;
+        int eskeeraId = (int)btn.Tag;
+
+        try
         {
-            Comanda comandaForm = new Comanda { NombreUsuario = NombreUsuario };
-            comandaForm.Show();
-            this.Hide();
+            using (var session = mySessionFactory.OpenSession())
+            {
+                // 1. Obtener datos de la comanda
+                var eskaera = session.Get<EskaeraEntity>(eskeeraId);
+                var platos = session.CreateQuery("FROM Eskaera2 WHERE EskaeraId = :id")
+                                   .SetParameter("id", eskeeraId)
+                                   .List<Eskaera2>();
+
+                // 2. Construir HTML mejor formateado
+                StringBuilder html = new StringBuilder();
+                html.AppendLine("<!DOCTYPE html>");
+                html.AppendLine("<html>");
+                html.AppendLine("<head>");
+                html.AppendLine("<meta charset='UTF-8'>");
+                html.AppendLine("<style>");
+                html.AppendLine("body { font-family: Arial, sans-serif; margin: 20px; }");
+                html.AppendLine("h1 { color: #BA450D; border-bottom: 2px solid #ddd; padding-bottom: 10px; }");
+                html.AppendLine("table { width: 100%; border-collapse: collapse; margin-top: 20px; }");
+                html.AppendLine("th { background-color: #f5f5f5; text-align: left; }");
+                html.AppendLine("th, td { padding: 12px; border-bottom: 1px solid #ddd; }");
+                html.AppendLine(".total { font-weight: bold; margin-top: 20px; font-size: 1.2em; }");
+                html.AppendLine("</style>");
+                html.AppendLine("</head>");
+                html.AppendLine("<body>");
+                html.AppendLine($"<h1>Comanda #{eskeeraId}</h1>");
+                html.AppendLine($"<p><strong>Fecha:</strong> {DateTime.Now:dd/MM/yyyy HH:mm}</p>");
+                html.AppendLine("<table>");
+                html.AppendLine("<tr><th>Plato</th><th>Precio</th><th>Notas</th><th>Hora</th></tr>");
+
+                decimal total = 0;
+                foreach (var plato in platos)
+                {
+                    string nombre = ObtenerNombrePlato(session, plato.PlateraId);
+                    int precio = ObtenerPrecioPlato(session, plato.PlateraId);
+                    total += precio;
+
+                    html.AppendLine("<tr>");
+                    html.AppendLine($"<td>{nombre}</td>");
+                    html.AppendLine($"<td>{precio:C}</td>");
+                    html.AppendLine($"<td>{plato.NotaGehigarriak ?? "-"}</td>");
+                    html.AppendLine($"<td>{plato.EskaeraOrdua:HH:mm}</td>");
+                    html.AppendLine("</tr>");
+                }
+
+                html.AppendLine("</table>");
+                html.AppendLine($"<p class='total'>Total: {total:C}</p>");
+                html.AppendLine("</body></html>");
+
+                // 3. Configuración del PDF
+                HtmlToPdf converter = new HtmlToPdf();
+                converter.Options.PdfPageSize = PdfPageSize.A4;
+                converter.Options.PdfPageOrientation = PdfPageOrientation.Portrait;
+
+                PdfDocument doc = converter.ConvertHtmlString(html.ToString());
+
+                // Guardar PDF
+                string documentosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                string pdfPath = Path.Combine(documentosPath, $"Comanda_{eskeeraId}_{DateTime.Now:yyyyMMddHHmmss}.pdf");
+
+                doc.Save(pdfPath);
+                doc.Close();
+
+                MessageBox.Show($"PDF generado en:\n{pdfPath}", "Éxito",
+                              MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error al generar PDF: {ex.Message}", "Error",
+                          MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+    } // Faltaba esta llave de cierre
+
+    private void BackButton_Click(object sender, EventArgs e)
+    {
+        Comanda comandaForm = new Comanda { NombreUsuario = NombreUsuario };
+        comandaForm.Show();
+        this.Hide();
     }
+}
 }
