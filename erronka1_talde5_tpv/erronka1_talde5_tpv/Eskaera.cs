@@ -300,9 +300,66 @@ namespace erronka1_talde5_tpv
         private void BtnEditar_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
-            int eskeeraId = (int)btn.Tag;  // Obtener el ID de la comanda desde el Tag
-            MessageBox.Show($"Editar comanda {eskeeraId}");
-            // Aquí puedes añadir la lógica para editar la comanda, como abrir un formulario para modificar los detalles.
+            int eskeeraId = (int)btn.Tag;
+
+            using (var session = mySessionFactory.OpenSession())
+            {
+                try
+                {
+                    // Obtener los ítems de Eskaera2
+                    var eskaera2Items = session.QueryOver<Eskaera2>()
+                        .Where(e2 => e2.EskaeraId == eskeeraId)
+                        .List();
+
+                    using (var editForm = new EditNotesForm(eskaera2Items.ToList(), session))
+                    {
+                        if (editForm.ShowDialog() == DialogResult.OK)
+                        {
+                            using (var transaction = session.BeginTransaction())
+                            {
+                                foreach (var item in eskaera2Items)
+                                {
+                                    if (editForm.UpdatedNotes.TryGetValue(item.PlateraId, out string nuevaNota))
+                                    {
+                                        item.NotaGehigarriak = nuevaNota;
+
+                                        // Usar un query más directo para actualizar solo el campo 'NotaGehigarriak'
+                                        var updateQuery = session.CreateQuery(
+                                            "UPDATE Eskaera2 SET NotaGehigarriak = :nuevaNota WHERE Id = :id"
+                                        );
+                                        updateQuery.SetParameter("nuevaNota", item.NotaGehigarriak);
+                                        updateQuery.SetParameter("id", item.Id);
+
+                                        // Ejecutar la actualización
+                                        updateQuery.ExecuteUpdate();
+                                    }
+                                }
+                                transaction.Commit();
+                                MessageBox.Show("Notas actualizadas correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                RefreshFormData(); // Actualizar la interfaz
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al editar las notas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void RefreshFormData()
+        {
+            // Eliminar el panel actual
+            var panelContenedor = this.Controls.OfType<Panel>().FirstOrDefault(p => p.AutoScroll);
+            if (panelContenedor != null)
+            {
+                this.Controls.Remove(panelContenedor);
+                panelContenedor.Dispose();
+            }
+
+            // Recargar los datos
+            Eskaera_Load(this, EventArgs.Empty);
         }
 
         private void BackButton_Click(object sender, EventArgs e)

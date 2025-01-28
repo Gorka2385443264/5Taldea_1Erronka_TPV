@@ -8,7 +8,10 @@
 			<generator class="identity" />
 		</id>
 		<property name="Izena" column="izena" type="string" />
+		<property name="Deskribapena" column="deskribapena" type="string" />
+		<property name="Mota" column="mota" type="string" />
+		<property name="PlateraMota" column="platera_mota" type="string" />
 		<property name="Prezioa" column="prezioa" type="int" />
-		<!-- Tipo int -->
+		<property name="Menu" column="menu" type="string" />
 	</class>
 </hibernate-mapping>

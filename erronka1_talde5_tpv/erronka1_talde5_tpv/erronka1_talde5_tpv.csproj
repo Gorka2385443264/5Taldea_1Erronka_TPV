@@ -138,6 +138,12 @@
     <Compile Include="Comanda.Designer.cs">
       <DependentUpon>Comanda.cs</DependentUpon>
     </Compile>
+    <Compile Include="EditNotesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditNotesForm.Designer.cs">
+      <DependentUpon>EditNotesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Eskaera.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -170,6 +176,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Comanda.resx">
       <DependentUpon>Comanda.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditNotesForm.resx">
+      <DependentUpon>EditNotesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Eskaera.resx">
       <DependentUpon>Eskaera.cs</DependentUpon>

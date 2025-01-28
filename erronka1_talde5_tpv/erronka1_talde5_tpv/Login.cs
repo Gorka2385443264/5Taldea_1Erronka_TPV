@@ -61,19 +61,16 @@ namespace erronka1_talde5_tpv
                 {
                     try
                     {
-                        // Consulta para obtener el usuario por email y contraseña
+                                         // Continuar con el login si el email es único
                         string hql = @"FROM Langilea WHERE Email = :emailParam AND Pasahitza = :pasahitzaParam";
-
                         var query = mySession.CreateQuery(hql);
                         query.SetParameter("emailParam", emailText.Text);
                         query.SetParameter("pasahitzaParam", pasahitzaText.Text);
 
-                        // Obtener el resultado de la consulta
                         var resultado = query.UniqueResult<Langilea>();
 
                         if (resultado != null)
                         {
-                            // Pasar el nombre del usuario a la pantalla Comanda
                             Comanda comandaForm = new Comanda
                             {
                                 NombreUsuario = resultado.Izena

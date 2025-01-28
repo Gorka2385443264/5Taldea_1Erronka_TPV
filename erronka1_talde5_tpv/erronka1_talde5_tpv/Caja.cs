@@ -279,7 +279,7 @@ namespace erronka1_talde5_tpv
                 if (!File.Exists(logoPath))
                 {
                     MessageBox.Show("El archivo del logo no se encontró en la ruta especificada",
-                                  "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                      "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -318,14 +318,14 @@ namespace erronka1_talde5_tpv
                     // Cabecera con logo y fecha/hora
                     string fechaHora = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
                     html.AppendLine($@"<div class='header'>
-                        <img src='{logoUri}' class='logo'/>
-                        <h1>{fechaHora}</h1>
-                        <div class='info-empresa'>
-                            <p>Saboreame Restaurante</p>
-                            <p>C/Gran Vía, 12 - 48001 Bilbao</p>
-                            <p>Tel: 944 123 456 | CIF: B12345678</p>
-                        </div>
-                      </div>");
+                <img src='{logoUri}' class='logo'/>
+                <h1>{fechaHora}</h1>
+                <div class='info-empresa'>
+                    <p>Saboreame Restaurante</p>
+                    <p>C/Gran Vía, 12 - 48001 Bilbao</p>
+                    <p>Tel: 944 123 456 | CIF: B12345678</p>
+                </div>
+              </div>");
 
                     html.AppendLine("<table>");
                     html.AppendLine("<tr><th>Plato</th><th>Precio</th></tr>");
@@ -366,13 +366,46 @@ namespace erronka1_talde5_tpv
 
                     // 7. Mostrar confirmación
                     MessageBox.Show($"PDF generado con éxito:\n{pdfPath}",
-                                  "PDF Creado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                      "PDF Creado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    btn.Enabled = false;
+
+                    // Get the parent panel (panelBotones)
+                    Panel parentPanel = (Panel)btn.Parent;
+
+                    // Check if "TODO LISTO" button already exists to avoid duplicates
+                    var existingTodoListo = parentPanel.Controls.OfType<Button>().FirstOrDefault(b => b.Text == "TODO LISTO");
+                    if (existingTodoListo == null)
+                    {
+                        // Create the "TODO LISTO" button
+                        Button btnTodoListo = new Button
+                        {
+                            Text = "TODO LISTO",
+                            Width = btn.Width,
+                            Height = 30, // Adjusted height for better fit
+                            BackColor = Color.Green,
+                            ForeColor = Color.White,
+                            Top = btn.Bottom + 10, // Position below "Crear PDF"
+                            Left = btn.Left
+                        };
+
+                        btnTodoListo.Click += (s, ev) =>
+                        {
+                            
+                        };
+
+                        // Adjust the parent panel's height to fit the new button
+                        parentPanel.Height = btnTodoListo.Top + btnTodoListo.Height + 10; // Add padding
+
+                        // Add the button to the parent panel
+                        parentPanel.Controls.Add(btnTodoListo);
+                    }
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al generar el PDF: {ex.Message}\n\nDetalles técnicos:\n{ex.StackTrace}",
-                              "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                  "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void BackButton_Click(object sender, EventArgs e)

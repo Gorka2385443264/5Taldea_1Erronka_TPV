@@ -191,6 +191,7 @@ C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\D
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\NHibernate.dll
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Remotion.Linq.dll
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Remotion.Linq.EagerFetching.dll
+C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Select.HtmlToPdf.dll
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\System.Buffers.dll
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\System.Configuration.ConfigurationManager.dll
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\System.Diagnostics.DiagnosticSource.dll
@@ -216,6 +217,7 @@ C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\D
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\NHibernate.xml
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Remotion.Linq.xml
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Remotion.Linq.EagerFetching.xml
+C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Select.HtmlToPdf.xml
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\System.Buffers.xml
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\System.Configuration.ConfigurationManager.xml
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\System.Diagnostics.DiagnosticSource.xml
@@ -224,8 +226,11 @@ C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\D
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\System.Numerics.Vectors.xml
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\System.Threading.Tasks.Extensions.xml
+C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Select.Html.dep
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.csproj.AssemblyReference.cache
+C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.Caja.resources
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.Comanda.resources
+C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.EditNotesForm.resources
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.Eskaera.resources
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.Login.resources
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.Properties.Resources.resources
@@ -235,7 +240,3 @@ C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\D
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1.5BFDB9A6.Up2Date
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.exe
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.pdb
-C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.Caja.resources
-C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Select.HtmlToPdf.dll
-C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Select.HtmlToPdf.xml
-C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Select.Html.dep

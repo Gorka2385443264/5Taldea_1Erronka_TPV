@@ -58,7 +58,7 @@ namespace erronka1_talde5_tpv
                 Text = "Eskaera",
                 Width = buttonWidth,
                 Height = buttonHeight,
-                Left = (this.ClientSize.Width - 3 * buttonWidth - 2 * horizontalSpacing) / 2, // Centrado horizontalmente
+                Left = (this.ClientSize.Width - 4 * buttonWidth - 3 * horizontalSpacing) / 2, // Centrado horizontalmente para 4 botones
                 Top = questionLabel.Bottom + 20  // Justo debajo del label "¿Qué quieres hacer?"
             };
             buttonEskaera.Click += ButtonEskaera_Click;
@@ -87,6 +87,8 @@ namespace erronka1_talde5_tpv
             };
             buttonTxat.Click += ButtonTxat_Click;
             this.Controls.Add(buttonTxat);
+
+  
         }
 
         // Método para manejar el clic en el botón "Eskaera"
@@ -103,27 +105,24 @@ namespace erronka1_talde5_tpv
         // Método para manejar el clic en el botón "Caja"
         private void ButtonCaja_Click(object sender, EventArgs e)
         {
-            // Crear una instancia de la pantalla Caja.cs
             Caja cajaForm = new Caja
             {
                 NombreUsuario = NombreUsuario // Pasar el nombre del usuario si es necesario
             };
-
-            // Mostrar la pantalla Caja.cs
             cajaForm.Show();
-
-            // Ocultar la pantalla actual (Comanda.cs)
             this.Hide();
         }
 
         // Método para manejar el clic en el botón "Txat"
         private void ButtonTxat_Click(object sender, EventArgs e)
         {
-            // Crear una instancia de la pantalla txat.cs
             txat txatForm = new txat(NombreUsuario); // Pasar el nombre del usuario
             txatForm.Show();
             this.Hide();
         }
+
+        // Método para manejar el clic en el botón "Sortu Eskaerak"
+    
 
         // Método para crear el botón "Volver"
         private void CreateBackButton()
@@ -138,10 +137,9 @@ namespace erronka1_talde5_tpv
             };
 
             backButton.Click += (sender, e) => {
-                // Al hacer clic, se abre el formulario de Login
                 Login loginForm = new Login();
                 loginForm.Show();
-                this.Hide();  // Oculta el formulario actual
+                this.Hide();
             };
 
             this.Controls.Add(backButton);

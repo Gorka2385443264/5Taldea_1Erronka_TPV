@@ -4,9 +4,9 @@
                    namespace="erronka1_talde5_tpv">
 	<class name="EskaeraEntity" table="eskaera">
 		<id name="Id" column="id" type="int">
-			<generator class="identity" />
-			<!-- Autoincremental -->
+			<generator class="identity"/>
 		</id>
-		<property name="Ordainduta" column="ordainduta" type="int" />
+		<property name="LangileaId" column="langilea_id" type="int"/>
+		<property name="Ordainduta" column="ordainduta" type="int"/>
 	</class>
 </hibernate-mapping>
