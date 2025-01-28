@@ -42,20 +42,36 @@ namespace erronka1_talde5_tpv
         {
             this.BackColor = ColorTranslator.FromHtml("#091725");
 
+            // Título "Las eskaeras de tu restaurante"
+            Label tituloLabel = new Label
+            {
+                Text = "Las eskaeras de tu restaurante",
+                Font = new Font("Arial", 20, FontStyle.Bold),
+                ForeColor = Color.White,
+                Dock = DockStyle.Top,
+                Height = 40,
+                TextAlign = ContentAlignment.MiddleCenter,
+                BackColor = ColorTranslator.FromHtml("#BA450D")
+            };
+
+            this.Controls.Add(tituloLabel); // Agregar el título a los controles de la forma
+
             if (mySessionFactory == null)
             {
                 MessageBox.Show("NHibernate no se configuró correctamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
             welcomeLabel.Text = $"¡Hola, {NombreUsuario}!";
             AjustarPosicionWelcomeLabel();
+
             using (var session = mySessionFactory.OpenSession())
             {
                 using (var transaction = session.BeginTransaction())
                 {
                     try
                     {
-                        // Obtener todas las comandas no pagadas (Ordainduta = 1)
+                        // O
                         var comandas = session.CreateQuery("FROM EskaeraEntity WHERE Ordainduta = 0")
                                               .SetReadOnly(true)
                                               .List<EskaeraEntity>();
@@ -137,7 +153,7 @@ namespace erronka1_talde5_tpv
                     Width = anchoCuadro,
                     Height = altoCuadro,
                     Left = margenIzquierdo + columna * (anchoCuadro + separacion),
-Top = welcomeLabel.Bottom + separacion + fila * (altoCuadro + separacion + 140),
+                    Top = welcomeLabel.Bottom + separacion + fila * (altoCuadro + separacion + 140),
                     BackColor = ColorTranslator.FromHtml("#BA450D"),
                     Padding = new Padding(10)
                 };
@@ -198,7 +214,45 @@ Top = welcomeLabel.Bottom + separacion + fila * (altoCuadro + separacion + 140),
                 cuadro.Controls.Add(espacio);
                 cuadro.Controls.Add(lblComandaId);
 
+                // Crear un panel para los botones, fuera del cuadro
+                Panel panelBotones = new Panel
+                {
+                    Width = anchoCuadro,
+                    Height = 60, // Un poco de espacio para los botones
+                    Left = cuadro.Left,
+                    Top = cuadro.Bottom + separacion,
+                    BackColor = Color.Transparent
+                };
+
+                Button btnEditar = new Button
+                {
+                    Text = "Editar",
+                    Tag = comandasAgrupadas[i].EskaeraId, // Asignar el ID de la comanda como Tag
+                    Width = anchoCuadro / 2 - 5,
+                    Height = 30,
+                    BackColor = Color.Orange,
+                    ForeColor = Color.White,
+                    Left = 0 // Alineado a la izquierda
+                };
+                btnEditar.Click += BtnEditar_Click;
+
+                Button btnPagar = new Button
+                {
+                    Text = "Pagar",
+                    Tag = comandasAgrupadas[i].EskaeraId, // Asignar el ID de la comanda como Tag
+                    Width = anchoCuadro / 2 - 5,
+                    Height = 30,
+                    BackColor = Color.Green,
+                    ForeColor = Color.White,
+                    Left = anchoCuadro / 2 + 5 // Alineado a la derecha
+                };
+                btnPagar.Click += BtnPagar_Click;
+
+                panelBotones.Controls.Add(btnEditar);
+                panelBotones.Controls.Add(btnPagar);
+
                 panelContenedor.Controls.Add(cuadro);
+                panelContenedor.Controls.Add(panelBotones); // Añadimos los botones al panel contenedor
             }
 
             this.Controls.Add(panelContenedor);
@@ -207,16 +261,47 @@ Top = welcomeLabel.Bottom + separacion + fila * (altoCuadro + separacion + 140),
         private void BtnPagar_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
-            int eskeeraId = (int)btn.Tag;
-            MessageBox.Show($"Pagar comanda {eskeeraId}");
-            // Actualiza el estado a pagado (Ordainduta = 1) en la base de datos
+            int eskeeraId = (int)btn.Tag;  // Obtener el ID de la comanda desde el Tag
+
+            using (var session = mySessionFactory.OpenSession())
+            {
+                using (var transaction = session.BeginTransaction())
+                {
+                    try
+                    {
+                        // Obtener la comanda por su ID
+                        var eskeera = session.Get<EskaeraEntity>(eskeeraId);
+
+                        if (eskeera != null)
+                        {
+                            // Cambiar el estado a pagado
+                            eskeera.Ordainduta = 1;  // 1 significa "pagada"
+                            session.Update(eskeera); // Actualizar la comanda en la base de datos
+
+                            transaction.Commit(); // Confirmar la transacción
+
+                            MessageBox.Show($"Comanda {eskeeraId} ha sido pagada con éxito.", "Pago realizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            MessageBox.Show($"Comanda con ID {eskeeraId} no encontrada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error al actualizar el estado de la comanda: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        transaction.Rollback(); // Revertir la transacción en caso de error
+                    }
+                }
+            }
         }
 
         private void BtnEditar_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
-            int eskeeraId = (int)btn.Tag;
+            int eskeeraId = (int)btn.Tag;  // Obtener el ID de la comanda desde el Tag
             MessageBox.Show($"Editar comanda {eskeeraId}");
+            // Aquí puedes añadir la lógica para editar la comanda, como abrir un formulario para modificar los detalles.
         }
 
         private void BackButton_Click(object sender, EventArgs e)

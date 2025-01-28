@@ -42,6 +42,20 @@ namespace erronka1_talde5_tpv
         {
             this.BackColor = ColorTranslator.FromHtml("#091725");
 
+            // Título "Las eskaeras de tu restaurante"
+            Label tituloLabel = new Label
+            {
+                Text = "Las eskaeras de tu restaurante",
+                Font = new Font("Arial", 20, FontStyle.Bold),
+                ForeColor = Color.White,
+                Dock = DockStyle.Top,
+                Height = 40,
+                TextAlign = ContentAlignment.MiddleCenter,
+                BackColor = ColorTranslator.FromHtml("#BA450D")
+            };
+
+            this.Controls.Add(tituloLabel); // Agregar el título a los controles de la forma
+
             if (mySessionFactory == null)
             {
                 MessageBox.Show("NHibernate no se configuró correctamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -57,6 +71,7 @@ namespace erronka1_talde5_tpv
                 {
                     try
                     {
+                        // 1
                         var comandas = session.CreateQuery("FROM EskaeraEntity WHERE Ordainduta = 1")
                                               .SetReadOnly(true)
                                               .List<EskaeraEntity>();
@@ -92,15 +107,6 @@ namespace erronka1_talde5_tpv
                     }
                 }
             }
-
-            // Ajustar la posición del botón de "Volver" en la parte inferior izquierda
-            AjustarPosicionBotonVolver();
-        }
-
-        private void AjustarPosicionBotonVolver()
-        {
-            // Coloca el botón de volver en la esquina inferior izquierda
-            this.backButton.Location = new Point(15, this.ClientSize.Height - this.backButton.Height - 15);
         }
 
         private int ObtenerPrecioPlato(ISession session, int platoId)
@@ -208,25 +214,57 @@ namespace erronka1_talde5_tpv
                 cuadro.Controls.Add(espacio);
                 cuadro.Controls.Add(lblComandaId);
 
+                // Crear un panel para los botones, fuera del cuadro
+                Panel panelBotones = new Panel
+                {
+                    Width = anchoCuadro,
+                    Height = 60, // Un poco de espacio para los botones
+                    Left = cuadro.Left,
+                    Top = cuadro.Bottom + separacion,
+                    BackColor = Color.Transparent
+                };
+
+                Button btnCrearPDF = new Button
+                {
+                    Text = "Crear PDF",
+                    Tag = comandasAgrupadas[i].EskaeraId, // Asignar el ID de la comanda como Tag
+                    Width = anchoCuadro,
+                    Height = 30,
+                    BackColor = Color.Blue,
+                    ForeColor = Color.White
+                };
+                btnCrearPDF.Click += BtnCrearPDF_Click;
+
+                panelBotones.Controls.Add(btnCrearPDF);
+
                 panelContenedor.Controls.Add(cuadro);
+                panelContenedor.Controls.Add(panelBotones); // Añadimos el botón al panel contenedor
             }
 
             this.Controls.Add(panelContenedor);
+
+            // Agregar botón "Volver" al panel de la parte inferior de la pantalla
+            Button backButton = new Button
+            {
+                Text = "Volver",
+                Width = 100,
+                Height = 40,
+                BackColor = Color.Gray,
+                ForeColor = Color.White,
+                Left = (this.ClientSize.Width - 100) / 2, // Centrado en la parte inferior
+                Top = this.ClientSize.Height - 60, // Posición en la parte inferior
+            };
+            backButton.Click += BackButton_Click;
+
+            this.Controls.Add(backButton);
         }
 
-        private void BtnPagar_Click(object sender, EventArgs e)
+        private void BtnCrearPDF_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
-            int eskeeraId = (int)btn.Tag;
-            MessageBox.Show($"Pagar comanda {eskeeraId}");
-            // Actualiza el estado a pagado (Ordainduta = 1) en la base de datos
-        }
-
-        private void BtnEditar_Click(object sender, EventArgs e)
-        {
-            Button btn = (Button)sender;
-            int eskeeraId = (int)btn.Tag;
-            MessageBox.Show($"Editar comanda {eskeeraId}");
+            int eskeeraId = (int)btn.Tag;  // Obtener el ID de la comanda desde el Tag
+            MessageBox.Show($"Crear PDF para la comanda {eskeeraId}");
+            // Aquí puedes añadir la lógica para generar el PDF de la comanda
         }
 
         private void BackButton_Click(object sender, EventArgs e)

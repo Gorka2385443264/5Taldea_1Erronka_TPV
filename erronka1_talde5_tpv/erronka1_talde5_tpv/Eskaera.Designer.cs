@@ -73,9 +73,10 @@ namespace erronka1_talde5_tpv
         {
             this.welcomeLabel.Location = new System.Drawing.Point(
                 (this.ClientSize.Width - this.welcomeLabel.Width) / 2, // Centrado horizontal
-                10 // Alineado en la parte superior con un pequeño margen
+                70 // Alineado un poco más abajo (antes estaba en 10)
             );
         }
+
 
         // Evento que maneja el redimensionamiento de la ventana
         private void Eskaera_Resize(object sender, EventArgs e)

@@ -25,7 +25,7 @@
             this.welcomeLabel.AutoSize = true;
             this.welcomeLabel.Font = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Bold);
             this.welcomeLabel.ForeColor = System.Drawing.Color.White;
-            this.welcomeLabel.Location = new System.Drawing.Point(300, 50);
+            this.welcomeLabel.Location = new System.Drawing.Point(300, 80);
             this.welcomeLabel.Name = "welcomeLabel";
             this.welcomeLabel.Size = new System.Drawing.Size(200, 32);
             this.welcomeLabel.TabIndex = 0;
@@ -53,11 +53,12 @@
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+
         private void AjustarPosicionWelcomeLabel()
         {
             this.welcomeLabel.Location = new System.Drawing.Point(
-                (this.ClientSize.Width - this.welcomeLabel.Width) / 2, // Centrado horizontal
-                10 // Alineado en la parte superior con un pequeño margen
+                (this.ClientSize.Width - this.welcomeLabel.Width) / 2,
+                10
             );
         }
     }
