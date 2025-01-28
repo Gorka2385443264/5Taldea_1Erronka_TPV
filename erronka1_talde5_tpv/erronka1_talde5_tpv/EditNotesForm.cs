@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using NHibernate;
+using erronka1_talde5_tpv;
+using System.Drawing;
 
 namespace erronka1_talde5_tpv
 {
@@ -70,54 +72,166 @@ namespace erronka1_talde5_tpv
 
         private void BtnGuardar_Click(object sender, EventArgs e)
         {
-            using (var transaction = _session.BeginTransaction())
+            try
+            {
+                // Guardar las notas editadas en el diccionario
+                foreach (var control in flowLayoutPanel1.Controls.OfType<TextBox>())
+                {
+                    var plateraId = (int)control.Tag;
+                    UpdatedNotes[plateraId] = control.Text; // Guardar la nueva nota
+                }
+
+                // Solo actualizar el campo 'nota_gehigarriak' en la tabla 'eskaera_platera'
+                using (var session = NHibernateHelper.OpenSession()) // Usando NHibernateHelper para la sesión
+                {
+                    using (var transaction = session.BeginTransaction())
+                    {
+                        foreach (var item in _eskaera2Items)
+                        {
+                            if (UpdatedNotes.TryGetValue(item.PlateraId, out string nuevaNota))
+                            {
+                                item.NotaGehigarriak = nuevaNota; // Asignar la nueva nota a la propiedad
+
+                                // Actualizar solo el campo 'nota_gehigarriak' en la base de datos
+                                var updateQuery = session.CreateQuery(
+                                    "UPDATE Eskaera2 SET NotaGehigarriak = :notaGehigarriak WHERE Id = :id"
+                                );
+
+                                updateQuery.SetParameter("notaGehigarriak", item.NotaGehigarriak);
+                                updateQuery.SetParameter("id", item.Id);
+
+                                // Ejecutar la actualización
+                                updateQuery.ExecuteUpdate();
+                            }
+                        }
+                        transaction.Commit();  // Confirmar la transacción
+                        MessageBox.Show("Notas actualizadas correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+
+                DialogResult = DialogResult.OK; // Cerrar el formulario con el resultado de OK
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al guardar las notas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+        private void BtnEditar_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            int eskaeraId = (int)btn.Tag;
+
+            using (var session = NHibernateHelper.OpenSession()) // Usando NHibernateHelper para la sesión
             {
                 try
                 {
-                    // Iterar a través de los elementos para actualizar solo la nota_gehigarriak
-                    foreach (var item in _eskaera2Items)
+                    // Obtener los ítems de Eskaera2
+                    var eskaera2Items = session.QueryOver<Eskaera2>()
+                        .Where(e2 => e2.EskaeraId == eskaeraId)
+                        .List();
+
+                    using (var editForm = new EditNotesForm(eskaera2Items.ToList(), session))
                     {
-                        if (UpdatedNotes.ContainsKey(item.PlateraId)) // Aquí se busca en UpdatedNotes
+                        if (editForm.ShowDialog() == DialogResult.OK)
                         {
-                            string nuevaNota = UpdatedNotes[item.PlateraId]; // Se obtiene la nueva nota
-
-                            // Verificar que el Id de la entidad Eskaera2 es válido
-                            if (item.Id > 0) // Verifica que el Id sea válido
+                            using (var transaction = session.BeginTransaction())
                             {
-                                var eskaera2 = _session.Get<Eskaera2>(item.Id); // Obtener la entidad Eskaera2 con el Id
-
-                                if (eskaera2 != null)
+                                // Solo actualizar las notas
+                                foreach (var item in eskaera2Items)
                                 {
-                                    Console.WriteLine($"Actualizando NotaGehigarriak para Id: {item.Id}, NotaGehigarriak: {nuevaNota}");
+                                    if (editForm.UpdatedNotes.TryGetValue(item.PlateraId, out string nuevaNota))
+                                    {
+                                        item.NotaGehigarriak = nuevaNota;
 
-                                    // Actualizar la propiedad NotaGehigarriak de la entidad
-                                    eskaera2.NotaGehigarriak = nuevaNota;
+                                        // Actualizar solo el campo 'NotaGehigarriak' en la tabla Eskaera2
+                                        var updateQuery = session.CreateQuery(
+                                            "UPDATE Eskaera2 SET NotaGehigarriak = :notaGehigarriak WHERE Id = :id"
+                                        );
 
-                                    // Guardar los cambios realizados en la entidad
-                                    _session.Update(eskaera2);
+                                        updateQuery.SetParameter("notaGehigarriak", item.NotaGehigarriak);
+                                        updateQuery.SetParameter("id", item.Id);
+
+                                        // Ejecutar la actualización
+                                        updateQuery.ExecuteUpdate();
+                                    }
                                 }
-                                else
-                                {
-                                    Console.WriteLine($"No se encontró la entidad Eskaera2 con Id: {item.Id}");
-                                }
-                            }
-                            else
-                            {
-                                Console.WriteLine($"Id no válido: {item.Id}");
+                                transaction.Commit();  // Confirmar la transacción
+                                MessageBox.Show("Notas actualizadas correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                RefreshFormData(); // Actualizar la interfaz
                             }
                         }
                     }
-
-                    transaction.Commit(); // Confirmar los cambios en la base de datos
-                    DialogResult = DialogResult.OK;
-                    Close();
                 }
                 catch (Exception ex)
                 {
-                    transaction.Rollback(); // Deshacer cambios en caso de error
                     MessageBox.Show($"Error al editar las notas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void RefreshFormData()
+        {
+            try
+            {
+                using (var session = NHibernateHelper.OpenSession()) // Usando NHibernateHelper para la sesión
+                {
+                    var datos = session.QueryOver<Eskaera2>().List<Eskaera2>();
+
+                    // Recargar datos en la interfaz o hacer actualizaciones necesarias
+                    // Ejemplo de actualización en los controles
+                    foreach (var item in datos)
+                    {
+                        Console.WriteLine(item.NotaGehigarriak);  // Actualiza los datos como sea necesario
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al actualizar los datos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+    }
+
+    public static class NHibernateHelper
+    {
+        private static ISessionFactory _sessionFactory;
+
+        public static ISessionFactory SessionFactory
+        {
+            get
+            {
+                if (_sessionFactory == null)
+                {
+                    ConfigureNHibernate();
+                }
+                return _sessionFactory;
+            }
+        }
+
+        // Método para configurar NHibernate
+        private static void ConfigureNHibernate()
+        {
+            try
+            {
+                var configuration = new NHibernate.Cfg.Configuration();
+                configuration.Configure(); // Configuración desde app.config o hibernate.cfg.xml
+
+                _sessionFactory = configuration.BuildSessionFactory();
+            }
+            catch (Exception ex)
+            {
+                // Mostrar el error si ocurre algo durante la configuración
+                MessageBox.Show($"Error al configurar NHibernate: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
+            }
+        }
+
+        // Método para obtener una nueva sesión
+        public static ISession OpenSession()
+        {
+            return SessionFactory.OpenSession();
         }
     }
 }

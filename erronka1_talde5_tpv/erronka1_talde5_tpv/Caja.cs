@@ -46,10 +46,9 @@ namespace erronka1_talde5_tpv
         {
             this.BackColor = ColorTranslator.FromHtml("#091725");
 
-            // Título "Las eskaeras de tu restaurante"
             Label tituloLabel = new Label
             {
-                Text = "Las eskaeras de tu restaurante",
+                Text = "CAJA",
                 Font = new Font("Arial", 20, FontStyle.Bold),
                 ForeColor = Color.White,
                 Dock = DockStyle.Top,

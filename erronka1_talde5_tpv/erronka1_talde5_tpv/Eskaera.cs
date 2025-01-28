@@ -45,7 +45,7 @@ namespace erronka1_talde5_tpv
             // Título "Las eskaeras de tu restaurante"
             Label tituloLabel = new Label
             {
-                Text = "Las eskaeras de tu restaurante",
+                Text = "ESKAERAK",
                 Font = new Font("Arial", 20, FontStyle.Bold),
                 ForeColor = Color.White,
                 Dock = DockStyle.Top,

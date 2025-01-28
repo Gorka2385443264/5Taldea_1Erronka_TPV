@@ -42,6 +42,7 @@
             this.Text = "Editar Notas";
             this.Load += new System.EventHandler(this.EditNotesForm_Load);
             this.ResumeLayout(false);
+
         }
 
         #endregion
