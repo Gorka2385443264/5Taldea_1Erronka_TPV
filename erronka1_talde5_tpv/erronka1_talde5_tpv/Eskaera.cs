@@ -72,8 +72,9 @@ namespace erronka1_talde5_tpv
                     try
                     {
                         // O
-                        var comandas = session.CreateQuery("FROM EskaeraEntity WHERE Ordainduta = 0")
-                                              .SetReadOnly(true)
+
+                        var comandas = session.CreateQuery("FROM EskaeraEntity WHERE Ordainduta = 0 ORDER BY Id DESC")
+                                                                      .SetReadOnly(true)
                                               .List<EskaeraEntity>();
 
                         var comandasDetalles = new List<(int EskaeraId, List<(int PlatoId, string Notas, DateTime Hora, int Precio, string NombrePlato)>)>();
