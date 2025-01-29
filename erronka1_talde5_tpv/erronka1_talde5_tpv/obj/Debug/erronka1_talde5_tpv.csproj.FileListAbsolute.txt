@@ -240,3 +240,4 @@ C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\D
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1.5BFDB9A6.Up2Date
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.exe
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.pdb
+C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.Sortu.resources

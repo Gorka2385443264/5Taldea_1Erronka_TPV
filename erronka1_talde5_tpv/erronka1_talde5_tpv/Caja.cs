@@ -75,7 +75,7 @@ namespace erronka1_talde5_tpv
                     try
                     {
                         // 1
-                        var comandas = session.CreateQuery("FROM EskaeraEntity WHERE Ordainduta = 1 ORDER BY Id DESC")
+                        var comandas = session.CreateQuery("FROM EskaeraEntity WHERE Ordainduta = 1 ORDER BY Id ASC")
                                                                       .SetReadOnly(true)
                                               .List<EskaeraEntity>();
 

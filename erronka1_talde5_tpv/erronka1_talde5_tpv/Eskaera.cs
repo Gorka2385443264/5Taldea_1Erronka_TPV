@@ -42,6 +42,20 @@ namespace erronka1_talde5_tpv
         {
             this.BackColor = ColorTranslator.FromHtml("#091725");
 
+     
+            // Botón "Sortu"
+            Button sortuButton = new Button
+            {
+                Text = "Sortu",
+                Font = new Font("Arial", 12),
+                ForeColor = Color.White,
+                BackColor = Color.DarkOrange,
+                Width = 100,
+                Height = 40,
+                Top = 10
+            };
+            sortuButton.Click += SortuButton_Click;
+            this.Controls.Add(sortuButton);
             // Título "Las eskaeras de tu restaurante"
             Label tituloLabel = new Label
             {
@@ -368,5 +382,23 @@ namespace erronka1_talde5_tpv
             comandaForm.Show();
             this.Hide();
         }
+
+        private void SortuButton_Click(object sender, EventArgs e)
+        {
+            // Usar el nombre de usuario desde la propiedad de la clase Eskaera
+            string nombreUsuario = this.NombreUsuario;
+
+            // Crear una nueva instancia de Sortu.cs y pasar el nombre de usuario
+            Sortu sortuForm = new Sortu(nombreUsuario);
+
+            // Mostrar la nueva pantalla
+            sortuForm.Show();
+
+            // Opcional: Ocultar la pantalla actual si ya no se necesita
+            this.Hide();
+        }
+
+
+
     }
 }
