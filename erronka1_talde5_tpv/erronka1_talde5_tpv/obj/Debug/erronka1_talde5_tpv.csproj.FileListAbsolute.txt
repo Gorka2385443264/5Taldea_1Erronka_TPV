@@ -234,10 +234,10 @@ C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\D
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.Eskaera.resources
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.Login.resources
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.Properties.Resources.resources
+C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.Sortu.resources
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.txat.resources
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.csproj.GenerateResource.cache
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.csproj.CoreCompileInputs.cache
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1.5BFDB9A6.Up2Date
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.exe
 C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.pdb
-C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\obj\Debug\erronka1_talde5_tpv.Sortu.resources

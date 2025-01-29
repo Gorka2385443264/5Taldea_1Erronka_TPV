@@ -389,7 +389,7 @@ namespace erronka1_talde5_tpv
             string nombreUsuario = this.NombreUsuario;
 
             // Crear una nueva instancia de Sortu.cs y pasar el nombre de usuario
-            Sortu sortuForm = new Sortu(nombreUsuario);
+            Sortu sortuForm = new Sortu(NombreUsuario);
 
             // Mostrar la nueva pantalla
             sortuForm.Show();

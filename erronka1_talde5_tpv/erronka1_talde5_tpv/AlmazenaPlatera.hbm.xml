@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="erronka1_talde5_tpv" namespace="erronka1_talde5_tpv">
+	
+	
+	
+	<class name="AlmazenaPlatera" table="almazena_platera">
+		<id name="Id" column="id" type="int">
+			<generator class="identity" />
+		</id>
+		<property name="PlateraId" column="platera_id" type="int" />
+		<property name="AlmazenaId" column="almazena_id" type="int" />
+	</class>
+</hibernate-mapping>

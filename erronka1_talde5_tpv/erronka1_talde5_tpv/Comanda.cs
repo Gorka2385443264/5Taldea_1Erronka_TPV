@@ -17,11 +17,17 @@ namespace erronka1_talde5_tpv
 
         private void Comanda_Load(object sender, EventArgs e)
         {
+            // Cambiar el color de fondo de la pantalla
+            this.BackColor = System.Drawing.ColorTranslator.FromHtml("#091725");
+
             // Centrar los controles
             CenterControls();
 
             // Establecer el texto del label de bienvenida
             welcomeLabel.Text = $"¡Hola, {NombreUsuario}!";
+            welcomeLabel.ForeColor = System.Drawing.Color.White; // Color del texto blanco
+
+            questionLabel.ForeColor = System.Drawing.Color.White; // Color del texto blanco
         }
 
         // Método para centrar los controles
@@ -48,47 +54,57 @@ namespace erronka1_talde5_tpv
         // Método para crear los botones con texto y acciones diferentes
         private void CreateButtons()
         {
-            int buttonWidth = 150;
-            int buttonHeight = 50;
-            int horizontalSpacing = 20;
+            int buttonWidth = (int)(this.ClientSize.Width * 0.3);
+            int buttonHeight = (int)(this.ClientSize.Height * 0.2);
+            int horizontalSpacing = (int)(this.ClientSize.Width * 0.05);
 
-            // Crear el botón "Eskaera"
+            int totalWidth = (3 * buttonWidth) + (2 * horizontalSpacing);
+            int startLeft = (this.ClientSize.Width - totalWidth) / 2;
+            int startTop = (this.ClientSize.Height - buttonHeight) / 2;
+
+            System.Drawing.Color buttonColor = System.Drawing.ColorTranslator.FromHtml("#BA450D");
+
             Button buttonEskaera = new Button
             {
                 Text = "Eskaera",
                 Width = buttonWidth,
                 Height = buttonHeight,
-                Left = (this.ClientSize.Width - 4 * buttonWidth - 3 * horizontalSpacing) / 2, // Centrado horizontalmente para 4 botones
-                Top = questionLabel.Bottom + 20  // Justo debajo del label "¿Qué quieres hacer?"
+                Left = startLeft,
+                Top = startTop,
+                Font = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Bold),
+                BackColor = buttonColor,
+                ForeColor = System.Drawing.Color.White
             };
             buttonEskaera.Click += ButtonEskaera_Click;
             this.Controls.Add(buttonEskaera);
 
-            // Crear el botón "Caja" a la derecha de "Eskaera"
             Button buttonCaja = new Button
             {
                 Text = "Caja",
                 Width = buttonWidth,
                 Height = buttonHeight,
-                Left = buttonEskaera.Right + horizontalSpacing, // A la derecha de "Eskaera"
-                Top = buttonEskaera.Top // Mismo nivel vertical
+                Left = buttonEskaera.Right + horizontalSpacing,
+                Top = startTop,
+                Font = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Bold),
+                BackColor = buttonColor,
+                ForeColor = System.Drawing.Color.White
             };
             buttonCaja.Click += ButtonCaja_Click;
             this.Controls.Add(buttonCaja);
 
-            // Crear el botón "Txat" a la derecha de "Caja"
             Button buttonTxat = new Button
             {
                 Text = "Txat",
                 Width = buttonWidth,
                 Height = buttonHeight,
-                Left = buttonCaja.Right + horizontalSpacing, // A la derecha de "Caja"
-                Top = buttonCaja.Top // Mismo nivel vertical
+                Left = buttonCaja.Right + horizontalSpacing,
+                Top = startTop,
+                Font = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Bold),
+                BackColor = buttonColor,
+                ForeColor = System.Drawing.Color.White
             };
             buttonTxat.Click += ButtonTxat_Click;
             this.Controls.Add(buttonTxat);
-
-  
         }
 
         // Método para manejar el clic en el botón "Eskaera"
@@ -122,7 +138,7 @@ namespace erronka1_talde5_tpv
         }
 
         // Método para manejar el clic en el botón "Sortu Eskaerak"
-    
+
 
         // Método para crear el botón "Volver"
         private void CreateBackButton()
@@ -132,8 +148,10 @@ namespace erronka1_talde5_tpv
                 Text = "Volver",
                 Width = 100,
                 Height = 40,
-                Left = 20,  // Posición en el borde izquierdo
-                Top = this.ClientSize.Height - 80  // Posición en la parte inferior
+                Left = 20,
+                Top = this.ClientSize.Height - 80,
+                BackColor = System.Drawing.ColorTranslator.FromHtml("#E89E47"),
+                ForeColor = System.Drawing.Color.White
             };
 
             backButton.Click += (sender, e) => {
