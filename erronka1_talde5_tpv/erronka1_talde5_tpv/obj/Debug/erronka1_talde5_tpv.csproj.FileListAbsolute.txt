@@ -315,3 +315,7 @@ C:\Users\asier\Desktop\TPV\5Taldea_1Erronka_TPV\erronka1_talde5_tpv\erronka1_tal
 C:\Users\asier\Desktop\TPV\5Taldea_1Erronka_TPV\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\EskaeraEntity.hbm.xml
 C:\Users\asier\Desktop\TPV\5Taldea_1Erronka_TPV\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\AlmazenaPlatera.hbm.xml
 C:\Users\asier\Desktop\TPV\5Taldea_1Erronka_TPV\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Stock.hbm.xml
+C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Platera.hbm.xml
+C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\EskaeraEntity.hbm.xml
+C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\AlmazenaPlatera.hbm.xml
+C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\bin\Debug\Stock.hbm.xml

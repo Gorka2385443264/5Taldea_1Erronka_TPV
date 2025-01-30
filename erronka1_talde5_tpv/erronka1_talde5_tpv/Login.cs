@@ -35,7 +35,7 @@ namespace erronka1_talde5_tpv
             // Asignar la imagen desde los recursos
             try
             {
-                logoPictureBox.Image = Image.FromFile(@"C:\Users\barto\OneDrive\Escritorio\5Taldea_Erronka1\5Taldea_1Erronka_TPV\erronka1_talde5_tpv\erronka1_talde5_tpv\Resources\saboreame.png");
+                logoPictureBox.Image = Image.FromFile(@"\erronka1_talde5_tpv\erronka1_talde5_tpv\Resources");
             }
             catch
             {

@@ -273,5 +273,15 @@ namespace erronka1_talde5_tpv
 
             
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox_mahaia_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
