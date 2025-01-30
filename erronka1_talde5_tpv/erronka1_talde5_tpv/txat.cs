@@ -24,6 +24,7 @@ namespace erronka1_talde5_tpv
         public txat(String izena)
         {
             this.izena = izena;
+            Console.WriteLine(this.izena);
             InitializeComponent();
             InitializeChatComponents();
         }
@@ -110,8 +111,8 @@ namespace erronka1_talde5_tpv
             Label labelMessage = new Label
             {
                 AutoSize = true,
-                MaximumSize = new Size(panelChat.Width - 40, 0),
-                Text = msg,  // Mostrar solo el contenido del mensaje
+                MaximumSize = new Size(panelChat.Width - 30, 0),
+                Text = message,  // Mostrar solo el contenido del mensaje
                 Font = new Font("Segoe UI", 12),
                 BackColor = isUser ? Color.LightBlue : Color.LightGray,
                 ForeColor = Color.Black,
@@ -122,8 +123,8 @@ namespace erronka1_talde5_tpv
 
             FlowLayoutPanel messagePanel = new FlowLayoutPanel
             {
+                MaximumSize = new Size(panelChat.Width - 30, 0),
                 AutoSize = true,
-                MaximumSize = new Size(panelChat.Width - 20, 0),
                 BackColor = Color.Transparent,
                 Padding = new Padding(5),
                 Margin = isUser ? new Padding(panelChat.Width - labelMessage.Width - 30, 0, 0, 0) : new Padding(0),
@@ -133,11 +134,10 @@ namespace erronka1_talde5_tpv
                 Dock = isUser ? DockStyle.Right : DockStyle.Left
             };
 
-
             messagePanel.Controls.Add(labelMessage);
             panelChat.Controls.Add(messagePanel);
             panelChat.ScrollControlIntoView(messagePanel);
-
+            AdjustMessagePanelMargins(panelChat);
 
         }
 
@@ -165,7 +165,7 @@ namespace erronka1_talde5_tpv
         {
             try
             {
-                client = new TcpClient("localhost", 5555);
+                client = new TcpClient("192.168.115.155", 5555);
                 reader = new StreamReader(client.GetStream());
                 writer = new StreamWriter(client.GetStream());
                 writer.AutoFlush = true;
