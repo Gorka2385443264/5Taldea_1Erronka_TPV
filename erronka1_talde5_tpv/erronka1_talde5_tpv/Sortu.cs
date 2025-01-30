@@ -5,15 +5,18 @@ using NHibernate;
 using System.Collections.Generic;
 using System.Drawing;
 using MySqlX.XDevAPI;
+using System.Transactions;
+using NHibernate.Mapping;
 
 namespace erronka1_talde5_tpv
 {
     public partial class Sortu : Form
     {
         private string nombreUsuario;
+        private int IdUsuario;
 
         // Constructor de Sortu.cs que recibe el nombre de usuario
-        public Sortu(string usuario)
+        public Sortu(string usuario, int idUsuario)
         {
             InitializeComponent();
             this.nombreUsuario = usuario;
@@ -80,7 +83,7 @@ namespace erronka1_talde5_tpv
                         // Crear un Label para cada plato
                         Label platoLabel = new Label
                         {
-                            Text = $"{plato.Izena} - {plato.Prezioa}€",
+                            Text = $"{plato.Id} - {plato.Izena} - {plato.Prezioa}€",
                             Font = new Font("Arial", 12F),
                             Location = new Point(40, yPos),
                             AutoSize = true
@@ -111,7 +114,8 @@ namespace erronka1_talde5_tpv
                             Text = "0", // Inicialmente 0
                             Font = new Font("Arial", 12F),
                             Location = new Point(35, 0), // Ajustar según sea necesario
-                            AutoSize = true
+                            AutoSize = true,
+                            Name = $"{plato.Id}Label"
                         };
                         cantidadPanel.Controls.Add(cantidadLabel);
 
@@ -286,7 +290,12 @@ namespace erronka1_talde5_tpv
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
+        }
 
+        private void LimpiarInterfaz()
+        {
+            throw new NotImplementedException();
         }
     }
 }

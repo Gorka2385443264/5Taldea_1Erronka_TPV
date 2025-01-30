@@ -49,7 +49,7 @@ namespace erronka1_talde5_tpv
             Label tituloLabel = new Label
             {
                 Text = "CAJA",
-                Font = new Font("Arial", 20, FontStyle.Bold),
+                Font = new Font("Roboto", 20, FontStyle.Bold),
                 ForeColor = Color.White,
                 Dock = DockStyle.Top,
                 Height = 40,
@@ -164,7 +164,7 @@ namespace erronka1_talde5_tpv
                 Label lblComandaId = new Label
                 {
                     Text = $"Comanda ID: {comandasAgrupadas[i].EskaeraId}",
-                    Font = new Font("Arial", 16, FontStyle.Bold),
+                    Font = new Font("Roboto", 16, FontStyle.Bold),
                     ForeColor = Color.White,
                     Dock = DockStyle.Top,
                     Height = 40,
@@ -194,7 +194,7 @@ namespace erronka1_talde5_tpv
                     Label lblPlato = new Label
                     {
                         Text = $"PLATO: {plato.NombrePlato}\nNOTAS: {plato.Notas ?? "Ninguna"}\nHORA: {plato.Hora:HH:mm}",
-                        Font = new Font("Arial", 10),
+                        Font = new Font("Roboto", 10),
                         ForeColor = Color.White,
                         Dock = DockStyle.Top,
                         AutoSize = true
@@ -203,7 +203,7 @@ namespace erronka1_talde5_tpv
                     Label lblPrecio = new Label
                     {
                         Text = $"Precio: {plato.Precio.ToString("C")}",
-                        Font = new Font("Arial", 8, FontStyle.Italic),
+                        Font = new Font("Roboto", 8, FontStyle.Italic),
                         ForeColor = Color.LightGray,
                         Dock = DockStyle.Top,
                         AutoSize = true
@@ -271,19 +271,12 @@ namespace erronka1_talde5_tpv
 
             try
             {
-                // 1. Ruta del logo
-                string logoPath = @"C:\Users\barto\OneDrive\Escritorio\erronka1_talde5_tpv\erronka1_talde5_tpv\Resources\saboreame.png";
-
-                // Verificar si existe el logo
-                if (!File.Exists(logoPath))
-                {
-                    MessageBox.Show("El archivo del logo no se encontró en la ruta especificada",
-                                      "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+                // 1. Guardar la imagen del logo temporalmente en disco
+                string tempLogoPath = Path.GetTempFileName() + ".png";
+                Properties.Resources.saboreame_sin_background_1_.Save(tempLogoPath, System.Drawing.Imaging.ImageFormat.Png);
 
                 // Convertir ruta a URI válido
-                string logoUri = new Uri(logoPath).AbsoluteUri;
+                string logoUri = new Uri(tempLogoPath).AbsoluteUri;
                 logoUri = logoUri.Replace(" ", "%20");
 
                 using (var session = mySessionFactory.OpenSession())
@@ -301,7 +294,7 @@ namespace erronka1_talde5_tpv
                     html.AppendLine("<head>");
                     html.AppendLine("<meta charset='UTF-8'>");
                     html.AppendLine("<style>");
-                    html.AppendLine("body { font-family: Arial, sans-serif; margin: 25px; }");
+                    html.AppendLine("body { font-family: Roboto, sans-serif; margin: 25px; }");
                     html.AppendLine(".header { text-align: center; margin-bottom: 25px; border-bottom: 2px solid #BA450D; padding-bottom: 15px; }");
                     html.AppendLine(".logo { max-width: 200px; height: auto; margin-bottom: 10px; }");
                     html.AppendLine("h1 { color: #BA450D; font-size: 24px; margin: 15px 0; }");
@@ -363,7 +356,10 @@ namespace erronka1_talde5_tpv
                     doc.Save(pdfPath);
                     doc.Close();
 
-                    // 7. Mostrar confirmación
+                    // 7. Eliminar el archivo temporal del logo
+                    File.Delete(tempLogoPath);
+
+                    // 8. Mostrar confirmación
                     MessageBox.Show($"PDF generado con éxito:\n{pdfPath}",
                                       "PDF Creado", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -390,7 +386,7 @@ namespace erronka1_talde5_tpv
 
                         btnTodoListo.Click += (s, ev) =>
                         {
-                            
+                            // Lógica para el botón "TODO LISTO"
                         };
 
                         // Adjust the parent panel's height to fit the new button

@@ -54,8 +54,8 @@ namespace erronka1_talde5_tpv
                 {
                     try
                     {
-                                         // Continuar con el login si el email es único
-                        string hql = @"FROM Langilea WHERE Email = :emailParam AND Pasahitza = :pasahitzaParam";
+                        // Consulta HQL para obtener el trabajador por email y contraseña
+                        string hql = @"SELECT l FROM Langilea l WHERE l.Email = :emailParam AND l.Pasahitza = :pasahitzaParam";
                         var query = mySession.CreateQuery(hql);
                         query.SetParameter("emailParam", emailText.Text);
                         query.SetParameter("pasahitzaParam", pasahitzaText.Text);
@@ -64,9 +64,11 @@ namespace erronka1_talde5_tpv
 
                         if (resultado != null)
                         {
+                            // Crear y mostrar el formulario Comanda con el ID y nombre del usuario
                             Comanda comandaForm = new Comanda
                             {
-                                NombreUsuario = resultado.Izena
+                                IdUsuario = resultado.Id, // Guardar el ID del trabajador
+                                NombreUsuario = resultado.Izena // Guardar el nombre del trabajador
                             };
                             comandaForm.Show();
                             this.Hide();
@@ -85,6 +87,7 @@ namespace erronka1_talde5_tpv
                     }
                 }
             }
+
         }
         private void CenterControls()
         {

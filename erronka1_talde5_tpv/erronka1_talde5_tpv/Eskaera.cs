@@ -14,6 +14,7 @@ namespace erronka1_talde5_tpv
         public static List<EskaeraPagada> EskaerasPagadas = new List<EskaeraPagada>();
 
         public string NombreUsuario { get; set; }
+        public int IdUsuario { get; set; }
 
         public Eskaera()
         {
@@ -389,7 +390,7 @@ namespace erronka1_talde5_tpv
             string nombreUsuario = this.NombreUsuario;
 
             // Crear una nueva instancia de Sortu.cs y pasar el nombre de usuario
-            Sortu sortuForm = new Sortu(NombreUsuario);
+            Sortu sortuForm = new Sortu(NombreUsuario, IdUsuario);
 
             // Mostrar la nueva pantalla
             sortuForm.Show();

@@ -6,6 +6,7 @@ namespace erronka1_talde5_tpv
     {
         public virtual int Id { get; set; }
         public virtual int LangileaId { get; set; }
+        public virtual int MahaiaId { get; set; }
         public virtual int Ordainduta { get; set; }
     }
 }

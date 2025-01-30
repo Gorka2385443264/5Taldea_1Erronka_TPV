@@ -34,7 +34,7 @@ namespace erronka1_talde5_tpv
             // 
             this.emailText.Font = new System.Drawing.Font("Myanmar Text", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.emailText.ForeColor = System.Drawing.Color.Black;
-            this.emailText.Location = new System.Drawing.Point(0, 0);
+            this.emailText.Location = new System.Drawing.Point(290, 282);
             this.emailText.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.emailText.Multiline = true;
             this.emailText.Name = "emailText";
@@ -45,7 +45,7 @@ namespace erronka1_talde5_tpv
             // 
             this.pasahitzaText.Font = new System.Drawing.Font("Myanmar Text", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pasahitzaText.ForeColor = System.Drawing.Color.Black;
-            this.pasahitzaText.Location = new System.Drawing.Point(0, 0);
+            this.pasahitzaText.Location = new System.Drawing.Point(174, 111);
             this.pasahitzaText.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pasahitzaText.Multiline = true;
             this.pasahitzaText.Name = "pasahitzaText";
@@ -67,7 +67,7 @@ namespace erronka1_talde5_tpv
             // 
             // logoPictureBox
             // 
-            this.logoPictureBox.Image = Properties.Resources.saboreame_sin_background_1_;
+            this.logoPictureBox.Image = global::erronka1_talde5_tpv.Properties.Resources.saboreame_sin_background_1_;
             this.logoPictureBox.Location = new System.Drawing.Point(186, 13);
             this.logoPictureBox.Margin = new System.Windows.Forms.Padding(4);
             this.logoPictureBox.Name = "logoPictureBox";
@@ -80,7 +80,7 @@ namespace erronka1_talde5_tpv
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1067, 554);
+            this.ClientSize = new System.Drawing.Size(1323, 751);
             this.Controls.Add(this.emailText);
             this.Controls.Add(this.pasahitzaText);
             this.Controls.Add(this.logInButton);

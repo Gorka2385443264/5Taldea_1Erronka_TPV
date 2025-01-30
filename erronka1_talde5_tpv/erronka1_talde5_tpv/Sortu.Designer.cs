@@ -15,9 +15,7 @@ namespace erronka1_talde5_tpv
         {
             this.nombreUsuarioLabel = new System.Windows.Forms.Label();
             this.volverButton = new System.Windows.Forms.Button();
-            this.label_notas = new System.Windows.Forms.Label();
             this.comboBox_mahaia = new System.Windows.Forms.ComboBox();
-            this.textBox_notas = new System.Windows.Forms.TextBox();
             this.label_mahaia = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -42,15 +40,6 @@ namespace erronka1_talde5_tpv
             this.volverButton.Text = "Volver";
             this.volverButton.Click += new System.EventHandler(this.volverButton_Click);
             // 
-            // label_notas
-            // 
-            this.label_notas.AutoSize = true;
-            this.label_notas.Location = new System.Drawing.Point(766, 271);
-            this.label_notas.Name = "label_notas";
-            this.label_notas.Size = new System.Drawing.Size(54, 16);
-            this.label_notas.TabIndex = 2;
-            this.label_notas.Text = "NOTAS";
-            // 
             // comboBox_mahaia
             // 
             this.comboBox_mahaia.FormattingEnabled = true;
@@ -70,24 +59,16 @@ namespace erronka1_talde5_tpv
             "13",
             "14",
             "15"});
-            this.comboBox_mahaia.Location = new System.Drawing.Point(609, 288);
+            this.comboBox_mahaia.Location = new System.Drawing.Point(540, 428);
             this.comboBox_mahaia.Name = "comboBox_mahaia";
             this.comboBox_mahaia.Size = new System.Drawing.Size(121, 24);
             this.comboBox_mahaia.TabIndex = 3;
             this.comboBox_mahaia.SelectedIndexChanged += new System.EventHandler(this.comboBox_mahaia_SelectedIndexChanged);
             // 
-            // textBox_notas
-            // 
-            this.textBox_notas.Location = new System.Drawing.Point(752, 290);
-            this.textBox_notas.Name = "textBox_notas";
-            this.textBox_notas.Size = new System.Drawing.Size(100, 22);
-            this.textBox_notas.TabIndex = 4;
-            this.textBox_notas.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
             // label_mahaia
             // 
             this.label_mahaia.AutoSize = true;
-            this.label_mahaia.Location = new System.Drawing.Point(644, 269);
+            this.label_mahaia.Location = new System.Drawing.Point(569, 409);
             this.label_mahaia.Name = "label_mahaia";
             this.label_mahaia.Size = new System.Drawing.Size(58, 16);
             this.label_mahaia.TabIndex = 5;
@@ -95,7 +76,7 @@ namespace erronka1_talde5_tpv
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(499, 383);
+            this.button1.Location = new System.Drawing.Point(471, 458);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(259, 75);
             this.button1.TabIndex = 6;
@@ -108,9 +89,7 @@ namespace erronka1_talde5_tpv
             this.ClientSize = new System.Drawing.Size(1189, 741);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label_mahaia);
-            this.Controls.Add(this.textBox_notas);
             this.Controls.Add(this.comboBox_mahaia);
-            this.Controls.Add(this.label_notas);
             this.Controls.Add(this.nombreUsuarioLabel);
             this.Controls.Add(this.volverButton);
             this.Name = "Sortu";
@@ -119,10 +98,7 @@ namespace erronka1_talde5_tpv
             this.PerformLayout();
 
         }
-
-        private Label label_notas;
         private ComboBox comboBox_mahaia;
-        private TextBox textBox_notas;
         private Label label_mahaia;
         private Button button1;
     }

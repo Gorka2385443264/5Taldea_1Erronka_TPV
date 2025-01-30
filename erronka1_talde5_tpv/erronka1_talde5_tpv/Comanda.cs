@@ -7,6 +7,7 @@ namespace erronka1_talde5_tpv
     {
         // Propiedad para recibir el nombre del usuario
         public string NombreUsuario { get; set; }
+        public int IdUsuario { get; set; }
 
         public Comanda()
         {
@@ -112,7 +113,8 @@ namespace erronka1_talde5_tpv
         {
             Eskaera eskaeraForm = new Eskaera
             {
-                NombreUsuario = NombreUsuario // Pasar el nombre del usuario
+                NombreUsuario = NombreUsuario, // Pasar el nombre del usuario
+                IdUsuario = IdUsuario // Pasar el nombre del usuario
             };
             eskaeraForm.Show();
             this.Hide();
