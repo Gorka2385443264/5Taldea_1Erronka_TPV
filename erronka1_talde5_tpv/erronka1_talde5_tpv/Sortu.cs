@@ -290,7 +290,96 @@ namespace erronka1_talde5_tpv
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+            try
+            {
+                int numeroMesa = Convert.ToInt32(comboBox_mahaia.SelectedItem?.ToString() ?? "0");
+                if (numeroMesa == 0)
+                {
+                    MessageBox.Show("Selecciona una mesa válida");
+                    return;
+                }
+
+
+
+
+
+                List<int> idsPlatos = new List<int>();
+
+                foreach (Control control in this.Controls)
+                {
+
+                    if (control is Panel panelCantidad && panelCantidad.Controls.Count > 0)
+                    {
+
+                        Label lblCantidad = panelCantidad.Controls.OfType<Label>().FirstOrDefault();
+                        if (lblCantidad != null && int.TryParse(lblCantidad.Text, out int cantidad) && cantidad > 0)
+                        {
+                            // Obtener el Label del plato (asumiendo que está 20px arriba del panel)
+                            Label lblPlato = this.Controls.OfType<Label>()
+                                .FirstOrDefault(l => l.Location.Y == panelCantidad.Location.Y - 20);
+
+                            if (lblPlato != null)
+                            {
+                                // Extraer ID del plato
+                                int idPlato = Convert.ToInt32(lblPlato.Text.Split('-')[0].Trim());
+
+                                // Añadir el ID tantas veces como la cantidad
+                                for (int i = 0; i < cantidad; i++)
+                                {
+                                    idsPlatos.Add(idPlato);
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+
+                if (idsPlatos.Count == 0)
+                {
+                    MessageBox.Show("Errore bat gertatu da mapeoarekin");
+                    return;
+                }
+
+
+
+                using (ISession session = NHibernateHelper.OpenSession())
+                using (var transaction = session.BeginTransaction())
+                {
+                    try
+                    {
+                        // Crear pedido principal
+                        var pedido = new EskaeraEntity
+                        {
+                            MahaiaId = numeroMesa,
+                            LangileaId = IdUsuario // Asegúrate de que esta variable existe
+                        };
+                        session.Save(pedido);
+
+                        // Crear registros individuales para cada plato
+                        foreach (int idPlato in idsPlatos)
+                        {
+                            session.Save(new Eskaera2
+                            {
+                                EskaeraId = pedido.Id, // Asume que EskaeraEntity tiene Id
+                                PlateraId = idPlato
+                            });
+                        }
+
+                        transaction.Commit();
+                        MessageBox.Show("Pedido guardado");
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        MessageBox.Show($"Error: {ex.Message}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error inesperado: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void LimpiarInterfaz()
@@ -299,3 +388,6 @@ namespace erronka1_talde5_tpv
         }
     }
 }
+
+        
+    

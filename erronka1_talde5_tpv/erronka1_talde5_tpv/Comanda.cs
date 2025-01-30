@@ -72,7 +72,7 @@ namespace erronka1_talde5_tpv
                 Height = buttonHeight,
                 Left = startLeft,
                 Top = startTop,
-                Font = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Bold),
+                Font = new System.Drawing.Font("Roboto", 20F, System.Drawing.FontStyle.Bold),
                 BackColor = buttonColor,
                 ForeColor = System.Drawing.Color.White
             };

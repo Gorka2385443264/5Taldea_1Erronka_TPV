@@ -33,7 +33,7 @@ namespace erronka1_talde5_tpv
 
             // welcomeLabel
             this.welcomeLabel.AutoSize = true;
-            this.welcomeLabel.Font = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Bold);
+            this.welcomeLabel.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Bold);
             this.welcomeLabel.ForeColor = System.Drawing.Color.White;
          //   welcomeLabel.Text = $"¡Hola, {NombreUsuario}!";
 
