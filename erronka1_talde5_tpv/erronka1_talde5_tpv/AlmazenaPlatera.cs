@@ -11,5 +11,6 @@ namespace erronka1_talde5_tpv
         public virtual int Id { get; set; }             // ID de la relación
         public virtual int PlateraId { get; set; }      // ID del plato
         public virtual int AlmazenaId { get; set; }     // ID del almacén
+        public virtual int Kantitatea { get; set; }
     }
 }

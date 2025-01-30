@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using NHibernate;
 using System.Collections.Generic;
 using System.Drawing;
+using MySqlX.XDevAPI;
 
 namespace erronka1_talde5_tpv
 {
@@ -127,36 +128,58 @@ namespace erronka1_talde5_tpv
                         // Variable para manejar la cantidad
                         int cantidad = 0;
 
-                     // Evento para el botón "+"
+                        // Evento para el botón "+"
                         botonMas.Click += (sender, e) =>
                         {
-                            cantidad++;
-                            cantidadLabel.Text = cantidad.ToString();
-    
-                            // Obtener el ID del plato (equivalente a PlateraId)
                             int platoId = plato.Id;
 
-                            // Obtener el AlmazenaId correspondiente a ese plato
                             using (ISession nuevaSession = NHibernateHelper.OpenSession())
+                            using (var transaction = nuevaSession.BeginTransaction())
                             {
-                                var almazenaPlateraLista = nuevaSession.Query<AlmazenaPlatera>()
-                                                                       .Where(ap => ap.PlateraId == platoId)
-                                                                       .ToList();
-
-                                if (almazenaPlateraLista.Any())
+                                try
                                 {
-                                    string mensaje = $"Plato ID (PlateraId): {platoId}\nAlmacenes encontrados:\n";
-                                    foreach (var almazena in almazenaPlateraLista)
+                                    var almazenaPlateraLista = nuevaSession.Query<AlmazenaPlatera>()
+                                        .Where(ap => ap.PlateraId == platoId)
+                                        .ToList();
+
+                                    bool stockSuficiente = true;
+
+                                    if (almazenaPlateraLista.Any())
                                     {
-                                        mensaje += $"- Almacén ID (AlmazenaId): {almazena.AlmazenaId}\n";
-                                    }
+                                        foreach (var almazena in almazenaPlateraLista)
+                                        {
+                                            // Verificar y restar el stock
+                                            bool result = almazenetikKendu(nuevaSession, almazena.Kantitatea, almazena.AlmazenaId);
 
-                                    MessageBox.Show(mensaje, "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                            if (!result)
+                                            {
+                                                stockSuficiente = false;
+                                                break; // Salir del bucle si falta stock
+                                            }
+                                        }
+
+                                        if (stockSuficiente)
+                                        {
+                                            transaction.Commit(); // Confirmar cambios en la base de datos
+                                            cantidad++; // Incrementar solo si el stock se actualizó
+                                            cantidadLabel.Text = cantidad.ToString();
+                                        }
+                                        else
+                                        {
+                                            transaction.Rollback();
+                                            MessageBox.Show("No hay suficiente stock para uno de los ingredientes");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show($"No se encontró ningún AlmazenaId para el Plato ID: {platoId}",
+                                                      "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    }
                                 }
-                                else
+                                catch (Exception ex)
                                 {
-                                    MessageBox.Show($"No se encontró ningún AlmazenaId para el Plato ID: {platoId}",
-                                                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    transaction.Rollback();
+                                    MessageBox.Show($"Error: {ex.Message}");
                                 }
                             }
                         };
@@ -166,19 +189,89 @@ namespace erronka1_talde5_tpv
                         // Evento para el botón "-"
                         botonMenos.Click += (sender, e) =>
                         {
-                            if (cantidad > 0) // No permitir que la cantidad sea negativa
+                            if (cantidad > 0)
                             {
                                 cantidad--;
                                 cantidadLabel.Text = cantidad.ToString();
+                                int platoId = plato.Id;
+
+                                using (ISession nuevaSession = NHibernateHelper.OpenSession())
+                                using (var transaction = nuevaSession.BeginTransaction())
+                                {
+                                    try
+                                    {
+                                        var almazenaPlateraLista = nuevaSession.Query<AlmazenaPlatera>()
+                                            .Where(ap => ap.PlateraId == platoId)
+                                            .ToList();
+
+                                        
+
+                                        if (almazenaPlateraLista.Any())
+                                        {
+                                            foreach (var almazena in almazenaPlateraLista)
+                                            {
+                                                // Verificar y restar el stock
+                                                almazenetikGehitu(nuevaSession, almazena.Kantitatea, almazena.AlmazenaId);
+
+                                                
+                                            }
+                                            transaction.Commit(); // Confirmar cambios en la base de datos
+
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show($"No se encontró ningún AlmazenaId para el Plato ID: {platoId}",
+                                                          "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        transaction.Rollback();
+                                        MessageBox.Show($"Error: {ex.Message}");
+                                    }
+                                }
                             }
                         };
 
-                        yPos += 25; // Separar los platos entre sí
+                        yPos += 40; // Separar los platos entre sí
                     }
 
                     yPos += 20; // Separar las categorías entre sí
                 }
             }
+        }
+
+        private void almazenetikGehitu(ISession nuevaSession, int kantitatea, int almazenaId)
+        {
+            var almacen = nuevaSession.Get<Stock>(almazenaId);
+
+
+            // Actualizar cantidad
+            almacen.Stock_Kant += kantitatea;
+            nuevaSession.Update(almacen); // Actualizar en la sesión
+
+        }
+
+        private bool almazenetikKendu(ISession session, int cantidadRequerida, int almacenId)
+        {
+            var almacen = session.Get<Stock>(almacenId);
+
+            if (almacen.Stock_Kant < cantidadRequerida)
+            {
+                return false; // No hay suficiente stock
+            }
+
+            // Actualizar cantidad
+            almacen.Stock_Kant -= cantidadRequerida;
+            session.Update(almacen); // Actualizar en la sesión
+
+            return true;
+        }
+
+        private void Sortu_Load(object sender, EventArgs e)
+        {
+
+            
         }
     }
 }

@@ -14,40 +14,39 @@ namespace erronka1_talde5_tpv
         private void InitializeComponent()
         {
             this.nombreUsuarioLabel = new System.Windows.Forms.Label();
-            this.volverButton = new System.Windows.Forms.Button();  // Crear el botón
-
+            this.volverButton = new System.Windows.Forms.Button();
+            this.SuspendLayout();
             // 
             // nombreUsuarioLabel
             // 
             this.nombreUsuarioLabel.AutoSize = true;
             this.nombreUsuarioLabel.Font = new System.Drawing.Font("Arial", 16F);
-            this.nombreUsuarioLabel.ForeColor = System.Drawing.Color.Black; // Color negro
-            this.nombreUsuarioLabel.Location = new System.Drawing.Point(0, 0);  // Se actualizará dinámicamente en el código
+            this.nombreUsuarioLabel.ForeColor = System.Drawing.Color.Black;
+            this.nombreUsuarioLabel.Location = new System.Drawing.Point(0, 0);
             this.nombreUsuarioLabel.Name = "nombreUsuarioLabel";
-            this.nombreUsuarioLabel.Size = new System.Drawing.Size(0, 26);
+            this.nombreUsuarioLabel.Size = new System.Drawing.Size(0, 32);
             this.nombreUsuarioLabel.TabIndex = 0;
-
             // 
             // volverButton
             // 
-            this.volverButton.Text = "Volver";
-            this.volverButton.Font = new Font("Arial", 12);
-            this.volverButton.Size = new Size(100, 40); // Tamaño del botón
-            this.volverButton.Location = new System.Drawing.Point(20, 380); // Posición predeterminada
+            this.volverButton.Font = new System.Drawing.Font("Arial", 12F);
+            this.volverButton.Location = new System.Drawing.Point(20, 430);
+            this.volverButton.Name = "volverButton";
+            this.volverButton.Size = new System.Drawing.Size(100, 40);
             this.volverButton.TabIndex = 1;
-
-            // Aquí se le agrega el evento Click al botón
+            this.volverButton.Text = "Volver";
             this.volverButton.Click += new System.EventHandler(this.volverButton_Click);
-
             // 
             // Sortu
             // 
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.nombreUsuarioLabel);
-            this.Controls.Add(this.volverButton);  // Añadir el botón al formulario
+            this.Controls.Add(this.volverButton);
             this.Name = "Sortu";
+            this.Load += new System.EventHandler(this.Sortu_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
     }
 }

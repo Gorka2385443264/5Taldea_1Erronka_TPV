@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="erronka1_talde5_tpv"
+                   namespace="erronka1_talde5_tpv">
+
+	<class name="erronka1_talde5_tpv.Platera" table="platera">
+		<id name="Id" column="id" type="int">
+			<generator class="identity" />
+		</id>
+		<property name="Izena" column="izena" type="string" />
+		<property name="Deskribapena" column="deskribapena" type="string" />
+		<property name="Mota" column="mota" type="string" />
+		<property name="PlateraMota" column="platera_mota" type="string" />
+		<property name="Prezioa" column="prezioa" type="int" />
+		<property name="Menu" column="menu" type="string" />
+	</class>
+</hibernate-mapping>

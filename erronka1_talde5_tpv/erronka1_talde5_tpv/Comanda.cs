@@ -134,7 +134,6 @@ namespace erronka1_talde5_tpv
         {
             txat txatForm = new txat(NombreUsuario); // Pasar el nombre del usuario
             txatForm.Show();
-            this.Hide();
         }
 
         // Método para manejar el clic en el botón "Sortu Eskaerak"

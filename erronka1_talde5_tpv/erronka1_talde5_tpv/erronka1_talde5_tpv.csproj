@@ -172,6 +172,7 @@
     <Compile Include="Sortu.Designer.cs">
       <DependentUpon>Sortu.cs</DependentUpon>
     </Compile>
+    <Compile Include="Stock.cs" />
     <Compile Include="txat.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -234,13 +235,24 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Platera.hbm.xml" />
+    <EmbeddedResource Include="Platera.hbm.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="EskaeraEntity.hbm.xml" />
+    <EmbeddedResource Include="EskaeraEntity.hbm.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AlmazenaPlatera.hbm.xml" />
+    <EmbeddedResource Include="AlmazenaPlatera.hbm.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Stock.hbm.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
