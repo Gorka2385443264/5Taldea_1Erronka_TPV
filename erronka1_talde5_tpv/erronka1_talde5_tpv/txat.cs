@@ -105,7 +105,7 @@ namespace erronka1_talde5_tpv
             string senderName = parts[0];
             string msg = parts[1];
 
-            bool isUser = (senderName.Trim() == izena.Trim());
+            bool isUser = (senderName.Trim() == this.izena.Trim());
 
             Label labelMessage = new Label
             {
@@ -149,7 +149,7 @@ namespace erronka1_talde5_tpv
 
             if (!string.IsNullOrEmpty(message))
             {
-                string formattedMessage = izena + ">" + message;
+                string formattedMessage = this.izena + ">" + message;
                 AddMessageToPanel(formattedMessage, true);
                 writer.WriteLine(formattedMessage);
                 textBoxMessage.Clear();
@@ -165,7 +165,7 @@ namespace erronka1_talde5_tpv
         {
             try
             {
-                client = new TcpClient("localhost", 5555);
+                client = new TcpClient("192.168.115.155", 5555);
                 reader = new StreamReader(client.GetStream());
                 writer = new StreamWriter(client.GetStream());
                 writer.AutoFlush = true;
