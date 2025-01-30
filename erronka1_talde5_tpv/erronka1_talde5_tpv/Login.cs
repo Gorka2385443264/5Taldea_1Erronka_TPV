@@ -33,14 +33,7 @@ namespace erronka1_talde5_tpv
             pasahitzaText.PasswordChar = '*';
 
             // Asignar la imagen desde los recursos
-            try
-            {
-                logoPictureBox.Image = Image.FromFile(@"\erronka1_talde5_tpv\erronka1_talde5_tpv\Resources");
-            }
-            catch
-            {
-                MessageBox.Show("No se pudo cargar la imagen del logo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            
         }
 
         private void logInButton_Click(object sender, EventArgs e)
