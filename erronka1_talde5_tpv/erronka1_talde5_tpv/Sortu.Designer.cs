@@ -19,6 +19,7 @@ namespace erronka1_talde5_tpv
             this.comboBox_mahaia = new System.Windows.Forms.ComboBox();
             this.textBox_notas = new System.Windows.Forms.TextBox();
             this.label_mahaia = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // nombreUsuarioLabel
@@ -92,9 +93,20 @@ namespace erronka1_talde5_tpv
             this.label_mahaia.TabIndex = 5;
             this.label_mahaia.Text = "MAHAIA";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(499, 383);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(259, 75);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "Eskaera sortu";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Sortu
             // 
             this.ClientSize = new System.Drawing.Size(1189, 741);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.label_mahaia);
             this.Controls.Add(this.textBox_notas);
             this.Controls.Add(this.comboBox_mahaia);
@@ -112,5 +124,6 @@ namespace erronka1_talde5_tpv
         private ComboBox comboBox_mahaia;
         private TextBox textBox_notas;
         private Label label_mahaia;
+        private Button button1;
     }
 }
